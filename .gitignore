@@ -1,0 +1,10 @@
+.classpath
+.project
+.settings/
+target/
+test-output/
+.idea/
+cucumbertaf.iml
+cucumbertaf.ipr
+cucumbertaf.iws
+reports/
