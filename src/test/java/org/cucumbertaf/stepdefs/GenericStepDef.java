@@ -4,13 +4,14 @@ import io.cucumber.java.en.Given;
 import org.cucumbertaf.context.TestContext;
 import org.openqa.selenium.WebDriver;
 
-public class GenericStepDef {
+public class GenericStepDef{
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
-    public GenericStepDef(TestContext testContext){
-        this.driver=testContext.driver;
+    public GenericStepDef(TestContext context){
+        this.driver=context.driver;
     }
+
     @Given("user launches application")
     public void user_launches_application() {
         System.out.println("-------user_launches_application");

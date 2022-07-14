@@ -3,20 +3,26 @@ package org.cucumbertaf.stepdefs.registeration;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.cucumbertaf.context.TestContext;
+import org.cucumbertaf.stepdefs.GenericStepDef;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class RegisterStepDef {
+import java.util.List;
+import java.util.Map;
 
-    private WebDriver driver;
+public class RegisterStepDef{
 
-    public RegisterStepDef(TestContext testContext){
-        this.driver=testContext.driver;
+    private final WebDriver driver;
+    private final List<Map<String,String>> data;
+
+    public RegisterStepDef(TestContext context){
+        this.driver=context.driver;
+        this.data=context.data;
     }
 
     @When("register page should displayed")
     public void register_page_should_displayed() {
-        System.out.println("-------register_page_should_displayed");
+        System.out.println("-------register_page_should_displayed" + this.data);
         driver.get("https://demo.nopcommerce.com/register?returnUrl=%2F");
     }
 
