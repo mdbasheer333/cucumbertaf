@@ -1,5 +1,6 @@
 Feature: this feature is to register a user
 
+  @Registration
   Scenario: the user registration
     Given user launches application
     When register page should displayed
