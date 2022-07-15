@@ -1,9 +1,12 @@
 package org.cucumbertaf.pageobjects.registerpage;
 
+import com.google.common.util.concurrent.Uninterruptibles;
 import org.cucumbertaf.pageobjects.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.concurrent.TimeUnit;
 
 public class RegisterPage extends BasePage {
 
@@ -26,6 +29,9 @@ public class RegisterPage extends BasePage {
     @FindBy(id = "ConfirmPassword")
     private WebElement cpwd;
 
+    @FindBy(name = "DateOfBirthMonth")
+    private WebElement dob;
+
     @FindBy(id = "register-button")
     private WebElement regButton;
 
@@ -33,14 +39,16 @@ public class RegisterPage extends BasePage {
         driver.get(url);
     }
 
-    public void fillRegistrationDetails(String firname, String lstname, String mail, String pswd, String cpswd){
+    public void fillRegistrationDetails(String firname, String lstname, String mail, String pswd, String cpswd) {
         fname.sendKeys(firname);
         lname.sendKeys(lstname);
+        selectByTextFromDropdown(dob, "April");
         email.sendKeys(mail);
         pwd.sendKeys(pswd);
         cpwd.sendKeys(cpswd);
     }
-    public void submitRegistrationDetails(){
+
+    public void submitRegistrationDetails() {
         regButton.click();
     }
 
