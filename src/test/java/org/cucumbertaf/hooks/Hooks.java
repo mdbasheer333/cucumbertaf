@@ -31,9 +31,10 @@ public class Hooks {
         this.testContext.featureName = String.valueOf(scenario.getUri());
         this.testContext.scenarioName = scenario.getName();
         counterTracker.put(this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 0) + 1);
-        ExcelReader reader = new ExcelReader();
-        this.testContext.data = reader.getAllData(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
-    }2
+        ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
+        this.testContext.data = reader.getAllData();
+        System.out.println("*************** " + this.testContext.data);
+    }
 
     @BeforeStep
     public void beforeStep(Scenario scenario) {

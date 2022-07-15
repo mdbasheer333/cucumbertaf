@@ -1,5 +1,15 @@
 package org.cucumbertaf.utils.excel;
 
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,24 +17,85 @@ import java.util.Map;
 
 public class ExcelReader {
 
-//    public List<Map<String, String>> getAllData(String spath, String sname, int iteration) {
-//        ExcelConfiguration config = new ExcelConfiguration.ExcelConfigurationBuilder()
-//                .setFileName("Excel")
-//                .setFileLocation("Location")
-//                .setSheetName("Sheet")
-//                .setIndex(iteration)
-//                .build();
-//        return new ExcelDataReader(config).getAllRows();
-//    }
+    XSSFWorkbook xssfWorkbook;
+    XSSFSheet xssfSheet;
+    XSSFRow xssfRow;
+    XSSFRow xssfRowHeader;
+    XSSFCell xssfCell;
 
-    public List<Map<String, String>> getAllData(String spath, String sname, int iteration) {
+    String featureName;
+    String filePath;
+    int iteration;
+    String scenarioName;
+
+    public ExcelReader(String spath, String sname, int iteration) {
+        featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
+        scenarioName = sname;
+        filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\testdata\\" + featureName + ".xlsx";
+        this.iteration = iteration;
+    }
+
+    public void init() {
+        try (FileInputStream fin = new FileInputStream(filePath)) {
+            xssfWorkbook = new XSSFWorkbook(fin);
+            xssfSheet = xssfWorkbook.getSheet(featureName);
+            xssfRowHeader = xssfSheet.getRow(0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void flush(){
+        try {
+            xssfWorkbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Map<String, String>> getAllData() {
         List<Map<String, String>> data = new ArrayList<>();
-        Map<String, String> map = new HashMap<>();
-        map.put("spath", spath);
-        map.put("sname", sname);
-        map.put("iteration", String.valueOf(iteration));
-        data.add(map);
+        init();
+        int featureColPos = getColPosition("feature");
+        int scenario = getColPosition("scenario");
+        int iteration = getColPosition("iteration");
+        for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
+            xssfRow = xssfSheet.getRow(i);
+            if (xssfRow.getCell(featureColPos).getStringCellValue().equals(featureName)) {
+                if (xssfRow.getCell(scenario).getStringCellValue().equals(scenarioName)) {
+                    if (xssfRow.getCell(iteration).getNumericCellValue() == this.iteration) {
+                        Map<String, String> map = new HashMap<>();
+                        for (int j = 0; j < xssfRow.getLastCellNum(); j++) {
+                            xssfCell = xssfRow.getCell(j);
+                            if (xssfCell.getCellType() == CellType.STRING) {
+                                map.put(xssfRowHeader.getCell(j).getStringCellValue(), xssfCell.getStringCellValue());
+                            }else if (xssfCell.getCellType() == CellType.NUMERIC){
+                                map.put(xssfRowHeader.getCell(j).getStringCellValue(), String.valueOf(xssfCell.getNumericCellValue()));
+                            }else {
+                                map.put(xssfRowHeader.getCell(j).getStringCellValue(), "");
+                            }
+                        }
+                        data.add(map);
+                       // map.clear();
+                    }
+                }
+            }
+        }
+        flush();
         return data;
+    }
+
+    private int getColPosition(String colName) {
+        int pos = -1;
+        xssfRow = xssfSheet.getRow(0);
+        int noOfColumns = xssfRow.getLastCellNum();
+        for (int i = 0; i < noOfColumns; i++) {
+            if (xssfRow.getCell(i).getStringCellValue().trim().equals(colName)) {
+                pos = i;
+                break;
+            }
+        }
+        return pos;
     }
 
 }
