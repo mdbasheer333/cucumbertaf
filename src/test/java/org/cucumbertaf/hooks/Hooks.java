@@ -6,12 +6,8 @@ import org.cucumbertaf.corelib.DriverClass;
 import org.cucumbertaf.utils.excel.ExcelReader;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 
-import java.sql.DriverManager;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Hooks {
@@ -26,30 +22,25 @@ public class Hooks {
 
     @BeforeAll
     public static void beforeAll() {
-        //System.out.println("-------beforeAll--------------");
         counterTracker = new HashMap<>();
     }
 
     @Before
-    public void before(Scenario scenario) {
-        System.out.println("--------before-------------");
+    public void before(Scenario scenario) throws Exception {
         this.testContext.driver = DriverClass.getDriverInstance("chrome");
         this.testContext.featureName = String.valueOf(scenario.getUri());
         this.testContext.scenarioName = scenario.getName();
         counterTracker.put(this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 0) + 1);
-        //System.out.println(this.testContext.scenarioName + " this.testContext.scenarioName   this.counterTracker" + counterTracker);
         ExcelReader reader = new ExcelReader();
-        this.testContext.data = reader.getData(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
-    }
+        this.testContext.data = reader.getAllData(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
+    }2
 
     @BeforeStep
     public void beforeStep(Scenario scenario) {
-        //System.out.println("------beforeStep---------------");
     }
 
     @AfterStep
     public void afterStep(Scenario scenario) {
-        //System.out.println("-------afterStep--------------");
         if (scenario.isFailed() || !scenario.isFailed()) {
             byte[] screenshot = ((TakesScreenshot) this.testContext.driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getId());
@@ -68,7 +59,6 @@ public class Hooks {
 
     @AfterAll
     public static void afterAll() {
-        //System.out.println("------afterAll---------------");
     }
 
 }
