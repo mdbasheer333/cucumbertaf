@@ -9,7 +9,6 @@ import org.openqa.selenium.support.PageFactory;
 public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver) {
         super(driver);
-
     }
 
     @FindBy(id = "Email")
@@ -25,6 +24,10 @@ public class LoginPage extends BasePage {
         email.sendKeys(mail);
         password.sendKeys(pwd);
         logIn.click();
+    }
+
+    public void load(String url) {
+        driver.get(url);
     }
 
 }
