@@ -120,14 +120,6 @@
 
     <build>
 
-
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources/{build.profile.id}/config.properties</directory>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-<!--        </resources>-->
-
         <plugins>
 
             <plugin>
@@ -141,6 +133,16 @@
                             ${basedir}/src/test/resources/suites/${suiteXmlFile}.xml
                         </suiteXmlFile>
                     </suiteXmlFiles>
+
+                    <!--The default thread count of the dataprovider in parallel mode is 10.-->
+
+<!--                    <properties>-->
+<!--                        <property>-->
+<!--                            <name>dataproviderthreadcount</name>-->
+<!--                            <value>3</value>-->
+<!--                        </property>-->
+<!--                    </properties>-->
+
                 </configuration>
             </plugin>
 
