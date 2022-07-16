@@ -30,10 +30,13 @@ public class Hooks {
         this.testContext.driver = DriverClass.getDriverInstance("chrome");
         this.testContext.featureName = String.valueOf(scenario.getUri());
         this.testContext.scenarioName = scenario.getName();
+        this.testContext.logger = scenario;
         counterTracker.put(this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 0) + 1);
         ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
         this.testContext.data = reader.getAllData();
-        System.out.println("*************** " + this.testContext.data);
+        scenario.log("feature name: " + this.testContext.featureName);
+        scenario.log("scenario name: " + this.testContext.scenarioName);
+        scenario.log("data used is: "+this.testContext.data);
     }
 
     @BeforeStep

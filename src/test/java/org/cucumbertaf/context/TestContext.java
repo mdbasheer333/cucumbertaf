@@ -1,5 +1,6 @@
 package org.cucumbertaf.context;
 
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
 
 import java.util.HashMap;
@@ -11,5 +12,7 @@ public class TestContext {
     public String featureName;
     public String scenarioName;
     public List<Map<String,String>> data;
+
+    public Scenario logger;
 
 }
