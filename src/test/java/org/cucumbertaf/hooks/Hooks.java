@@ -28,7 +28,8 @@ public class Hooks {
 
     @Before
     public void before(Scenario scenario) throws Exception {
-        String browser = PropertyUtil.getProperty("browser");
+        String browserProp = System.getProperty("browser");
+        String browser = browserProp == null ? PropertyUtil.getProperty("browser") : browserProp;
         this.testContext.driver = DriverClass.getDriverInstance(browser);
         this.testContext.featureName = String.valueOf(scenario.getUri());
         this.testContext.scenarioName = scenario.getName();
@@ -61,7 +62,9 @@ public class Hooks {
             byte[] screenshot = ((TakesScreenshot) this.testContext.driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getName());
         }
-        this.testContext.driver.quit();
+        if (this.testContext.driver != null) {
+            this.testContext.driver.quit();
+        }
     }
 
     @AfterAll
