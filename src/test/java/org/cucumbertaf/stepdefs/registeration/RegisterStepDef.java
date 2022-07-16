@@ -28,7 +28,7 @@ public class RegisterStepDef {
     @When("fill all the details in registration page")
     public void fill_all_the_details_in_registration_page() {
         RegisterPage registerPage = new RegisterPage(this.driver);
-        registerPage.fillRegistrationDetails("abcd", "efgh", "abcd@gmail.com", "abcd1234", "abcd1234");
+        registerPage.fillRegistrationDetails(data.get(0));
     }
 
     @When("submits the details")

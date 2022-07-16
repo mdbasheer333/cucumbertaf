@@ -28,7 +28,7 @@ public class OrderStepDef{
         System.out.println("-------user_login_to_application " + this.data);
         LoginPage loginPage=new LoginPage(driver);
         loginPage.load("https://demo.nopcommerce.com/login?returnUrl=%2F");
-        loginPage.loginToApp("dummy","dummy");
+        loginPage.loginToApp(data.get(0).get("email"),data.get(0).get("password"));
     }
     @When("checks out the order")
     public void checks_out_the_order() {

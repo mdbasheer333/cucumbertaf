@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterPage extends BasePage {
@@ -39,13 +40,13 @@ public class RegisterPage extends BasePage {
         driver.get(url);
     }
 
-    public void fillRegistrationDetails(String firname, String lstname, String mail, String pswd, String cpswd) {
-        fname.sendKeys(firname);
-        lname.sendKeys(lstname);
-        selectByTextFromDropdown(dob, "April");
-        email.sendKeys(mail);
-        pwd.sendKeys(pswd);
-        cpwd.sendKeys(cpswd);
+    public void fillRegistrationDetails(Map<String,String> registerData) {
+        fname.sendKeys(registerData.get("fname"));
+        lname.sendKeys(registerData.get("lname"));
+        selectByTextFromDropdown(dob, registerData.get("dobmonth"));
+        email.sendKeys(registerData.get("mail"));
+        pwd.sendKeys(registerData.get("password"));
+        cpwd.sendKeys(registerData.get("confirmpassword"));
     }
 
     public void submitRegistrationDetails() {

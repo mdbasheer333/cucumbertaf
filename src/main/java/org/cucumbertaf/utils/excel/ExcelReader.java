@@ -28,9 +28,9 @@ public class ExcelReader {
     int iteration;
     String scenarioName;
 
-    public ExcelReader(String spath, String sname, int iteration) {
+    public ExcelReader(String spath, String scenarioName, int iteration) {
         featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
-        scenarioName = sname;
+        this.scenarioName = scenarioName;
         filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\testdata\\" + featureName + ".xlsx";
         this.iteration = iteration;
     }
@@ -41,42 +41,52 @@ public class ExcelReader {
             xssfSheet = xssfWorkbook.getSheet(featureName);
             xssfRowHeader = xssfSheet.getRow(0);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
     }
 
-    public void flush(){
+    public void flush() {
         try {
             xssfWorkbook.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
     }
 
     public List<Map<String, String>> getAllData() {
         List<Map<String, String>> data = new ArrayList<>();
         init();
+        if (xssfWorkbook == null || xssfSheet == null) {
+            return null;
+        }
+
         int featureColPos = getColPosition("feature");
         int scenario = getColPosition("scenario");
         int iteration = getColPosition("iteration");
         for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
             xssfRow = xssfSheet.getRow(i);
+            if (xssfRow == null) {
+                continue;
+            }
             if (xssfRow.getCell(featureColPos).getStringCellValue().equals(featureName)) {
                 if (xssfRow.getCell(scenario).getStringCellValue().equals(scenarioName)) {
                     if (xssfRow.getCell(iteration).getNumericCellValue() == this.iteration) {
                         Map<String, String> map = new HashMap<>();
                         for (int j = 0; j < xssfRow.getLastCellNum(); j++) {
                             xssfCell = xssfRow.getCell(j);
+                            if (xssfCell == null) {
+                                continue;
+                            }
                             if (xssfCell.getCellType() == CellType.STRING) {
                                 map.put(xssfRowHeader.getCell(j).getStringCellValue(), xssfCell.getStringCellValue());
-                            }else if (xssfCell.getCellType() == CellType.NUMERIC){
+                            } else if (xssfCell.getCellType() == CellType.NUMERIC) {
                                 map.put(xssfRowHeader.getCell(j).getStringCellValue(), String.valueOf(xssfCell.getNumericCellValue()));
-                            }else {
+                            } else {
                                 map.put(xssfRowHeader.getCell(j).getStringCellValue(), "");
                             }
                         }
                         data.add(map);
-                       // map.clear();
+                        // map.clear();
                     }
                 }
             }
