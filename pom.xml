@@ -64,7 +64,70 @@
 
     </dependencies>
 
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/dev</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.properties</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+
+        <profile>
+            <id>stage</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/stage</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.properties</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+
+        <profile>
+            <id>qa</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/qa</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.properties</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+
+    </profiles>
+
+
+
     <build>
+
+
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources/{build.profile.id}/config.properties</directory>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
+
         <plugins>
 
             <plugin>

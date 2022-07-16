@@ -4,6 +4,7 @@ import io.cucumber.java.*;
 import org.cucumbertaf.context.TestContext;
 import org.cucumbertaf.corelib.DriverClass;
 import org.cucumbertaf.utils.excel.ExcelReader;
+import org.cucumbertaf.utils.property.PropertyUtil;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -27,16 +28,18 @@ public class Hooks {
 
     @Before
     public void before(Scenario scenario) throws Exception {
-        this.testContext.driver = DriverClass.getDriverInstance("chrome");
+        String browser = PropertyUtil.getProperty("browser");
+        this.testContext.driver = DriverClass.getDriverInstance(browser);
         this.testContext.featureName = String.valueOf(scenario.getUri());
         this.testContext.scenarioName = scenario.getName();
         this.testContext.logger = scenario;
         counterTracker.put(this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 0) + 1);
         ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
         this.testContext.data = reader.getAllData();
+        scenario.log("browser name: " + browser);
         scenario.log("feature name: " + this.testContext.featureName);
         scenario.log("scenario name: " + this.testContext.scenarioName);
-        scenario.log("data used is: "+this.testContext.data);
+        scenario.log("data used is: " + this.testContext.data);
     }
 
     @BeforeStep
