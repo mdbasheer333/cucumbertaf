@@ -10,7 +10,13 @@ public class OrderPage extends BasePage {
 
     public OrderPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(id = "VisitingTable1")
+    private WebElement table;
+
+    public WebElement getTable(){
+        return table;
     }
 
 }
