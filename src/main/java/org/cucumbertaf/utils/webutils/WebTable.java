@@ -16,11 +16,15 @@ public class WebTable {
     }
 
     public int getNumberOfRows() {
-        return element.findElements(By.tagName("//tbody//tr")).size();
+        return element.findElements(By.xpath("//tbody//tr")).size();
     }
 
     public int getNumberOfColumns() {
-        return element.findElements(By.xpath("//thead//th|//tr[1]//td")).size();
+        int size = element.findElements(By.xpath("//thead//th")).size();
+        if (size == 0) {
+            size = element.findElements(By.xpath("//tr[1]//td")).size();
+        }
+        return size;
     }
 
     public String getCellValueAt(int row, int col) {
@@ -34,19 +38,24 @@ public class WebTable {
     public void selectAt(int row, int col, String textToSelect) {
         WebElement dropdown = element.findElement(By.xpath("//tr[" + row + "]//td[" + col + "]//select"));
         Select select = new Select(dropdown);
-        select.deselectByVisibleText(textToSelect);
+        select.selectByVisibleText(textToSelect);
     }
 
-    public void enterAt(int row, int col, String textToSelect) {
-        WebElement dropdown = element.findElement(By.xpath("//tr[" + row + "]//td[" + col + "]//input[@type='text']"));
-        Select select = new Select(dropdown);
-        select.deselectByVisibleText(textToSelect);
+    public void enterAt(int row, int col, String valueToEnter) {
+        WebElement input = element.findElement(By.xpath("//tr[" + row + "]//td[" + col + "]//input[@type='text']"));
+        input.sendKeys(valueToEnter);
     }
 
     public List<String> getColumnNames() {
-        return element.findElements(By.xpath("//thead//th|//tr[1]//td"))
+        List<String> lst = element.findElements(By.xpath("//thead//th"))
                 .stream().map(WebElement::getText)
                 .map(String::trim).collect(Collectors.toList());
+        if (lst.size() == 0) {
+            lst = element.findElements(By.xpath("//tr[1]//td"))
+                    .stream().map(WebElement::getText)
+                    .map(String::trim).collect(Collectors.toList());
+        }
+        return lst;
     }
 
     public int getColumnIndexOf(String colName) {

@@ -42,7 +42,11 @@ public class GenericStepDef {
         System.out.println(table.getColumnNames());
         System.out.println(table.getCellValueAt(3, 3));
         System.out.println(table.getColumnIndexOf("Designation"));
-        System.out.println(table.getRowNumberHavingValueAtColumn("S148106", "Employee ID"));
+        int rowNum=table.getRowNumberHavingValueAtColumn("S148106", "Employee ID");
+        System.out.println(rowNum);
+        table.clickAt(rowNum, 1);
+        table.selectAt(rowNum, 8,"Pending");
+        Uninterruptibles.sleepUninterruptibly(15, TimeUnit.SECONDS);
     }
 
 }
