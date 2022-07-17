@@ -1,14 +1,10 @@
 package org.cucumbertaf.stepdefs.orders;
 
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.it.Ma;
 import org.cucumbertaf.context.TestContext;
 import org.cucumbertaf.pageobjects.loginpage.LoginPage;
-import org.cucumbertaf.stepdefs.GenericStepDef;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
@@ -31,7 +27,9 @@ public class OrderStepDef{
         System.out.println("-------user_login_to_application " + data);
         LoginPage loginPage=new LoginPage(driver);
         loginPage.load("https://demo.nopcommerce.com/login?returnUrl=%2F");
-        loginPage.loginToApp(data.get(0).get("email"),data.get(0).get("password"));
+        String username=data.get(0).get("email");
+        String password=data.get(0).get("password");
+        loginPage.loginToApp(username,password);
         log.log("i am in user_login_to_application");
     }
     @When("checks out the order")

@@ -1,13 +1,11 @@
 package org.cucumbertaf.pageobjects.registerpage;
 
-import com.google.common.util.concurrent.Uninterruptibles;
 import org.cucumbertaf.pageobjects.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class RegisterPage extends BasePage {
 
@@ -40,7 +38,7 @@ public class RegisterPage extends BasePage {
         driver.get(url);
     }
 
-    public void fillRegistrationDetails(Map<String,String> registerData) {
+    public void fillRegistrationDetails(Map<String, String> registerData) {
         fname.sendKeys(registerData.get("fname"));
         lname.sendKeys(registerData.get("lname"));
         selectByTextFromDropdown(dob, registerData.get("dobmonth"));
