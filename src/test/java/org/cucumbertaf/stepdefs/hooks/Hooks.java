@@ -1,8 +1,9 @@
-package org.cucumbertaf.hooks;
+package org.cucumbertaf.stepdefs.hooks;
 
 import io.cucumber.java.*;
 import org.cucumbertaf.context.TestContext;
 import org.cucumbertaf.corelib.DriverClass;
+import org.cucumbertaf.utils.Globals;
 import org.cucumbertaf.utils.excel.ExcelReader;
 import org.cucumbertaf.utils.property.PropertyUtil;
 import org.openqa.selenium.OutputType;
@@ -14,7 +15,7 @@ import java.util.Map;
 public class Hooks {
 
     private final TestContext testContext;
-    static Map<String, Integer> counterTracker;
+//    static Map<String, Integer> counterTracker;
 
     public Hooks(TestContext testContext) {
         this.testContext = testContext;
@@ -23,7 +24,7 @@ public class Hooks {
 
     @BeforeAll
     public static void beforeAll() {
-        counterTracker = new HashMap<>();
+        //Globals.counterTracker = new HashMap<>();
     }
 
     @Before
@@ -34,8 +35,12 @@ public class Hooks {
         this.testContext.featureName = String.valueOf(scenario.getUri());
         this.testContext.scenarioName = scenario.getName();
         this.testContext.logger = scenario;
-        counterTracker.put(this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 0) + 1);
-        ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, counterTracker.getOrDefault(this.testContext.scenarioName, 1));
+
+        String featureNameTemp = this.testContext.featureName.split("/")[this.testContext.featureName.split("/").length - 1].replaceAll(".feature", "");
+        int iteraration = Globals.counterTracker.getOrDefault(featureNameTemp, 1);
+        System.out.println("iterarationiterarationiteraration " + iteraration);
+
+        ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, iteraration);
         this.testContext.data = reader.getAllData();
         scenario.log("browser name: " + browser);
         scenario.log("feature name: " + this.testContext.featureName);

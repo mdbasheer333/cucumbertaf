@@ -67,7 +67,7 @@ public class ExcelReader {
                 continue;
             }
             if (xssfRow.getCell(featureColPos).getStringCellValue().equals(featureName)) {
-                if (xssfRow.getCell(scenario).getStringCellValue().equals(scenarioName)) {
+              //  if (xssfRow.getCell(scenario).getStringCellValue().equals(scenarioName)) {
                     if (xssfRow.getCell(iteration).getNumericCellValue() == this.iteration) {
                         Map<String, String> map = new HashMap<>();
                         for (int j = 0; j < xssfRow.getLastCellNum(); j++) {
@@ -86,7 +86,7 @@ public class ExcelReader {
                         data.add(map);
                         // map.clear();
                     }
-                }
+                //}
             }
         }
         flush();
