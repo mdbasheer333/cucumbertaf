@@ -5,6 +5,9 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CTAFListener implements ITestListener {
 
     public void onTestStart(ITestResult result) {
@@ -32,9 +35,10 @@ public class CTAFListener implements ITestListener {
         int iteration = Integer.parseInt(context.getCurrentXmlTest().getParameter("iteration"));
 
         System.out.println("----before test tag in xml-----result.context()---------" + featureName + " ----------- " + iteration);
-
-        Globals.counterTracker.put(featureName, iteration);
-        System.out.println(Globals.counterTracker);
+        Map<String,Integer> mp=new HashMap<>();
+        mp.put(featureName, iteration);
+        Globals.counterTracker.set(mp);
+        System.out.println(Globals.counterTracker.get());
     }
 
     public void onFinish(ITestContext context) {

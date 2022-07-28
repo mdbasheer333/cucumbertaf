@@ -37,7 +37,7 @@ public class Hooks {
         this.testContext.logger = scenario;
 
         String featureNameTemp = this.testContext.featureName.split("/")[this.testContext.featureName.split("/").length - 1].replaceAll(".feature", "");
-        int iteraration = Globals.counterTracker.getOrDefault(featureNameTemp, 1);
+        int iteraration = Globals.counterTracker.get().getOrDefault(featureNameTemp, 1);
         System.out.println("iterarationiterarationiteraration " + iteraration);
 
         ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, iteraration);
@@ -67,9 +67,9 @@ public class Hooks {
             byte[] screenshot = ((TakesScreenshot) this.testContext.driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getName());
         }
-        if (this.testContext.driver != null) {
-            this.testContext.driver.quit();
-        }
+//        if (this.testContext.driver != null) {
+//            this.testContext.driver.quit();
+//        }
     }
 
     @AfterAll
