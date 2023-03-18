@@ -19,6 +19,10 @@ public class WebTable {
         return element.findElements(By.xpath("//tbody//tr")).size();
     }
 
+    public WebElement getTableElement(int row, int col){
+        return  element.findElement(By.xpath("//tr[" + row + "]//td[" + col + "]"));
+    }
+
     public int getNumberOfColumns() {
         int size = element.findElements(By.xpath("//thead//th")).size();
         if (size == 0) {

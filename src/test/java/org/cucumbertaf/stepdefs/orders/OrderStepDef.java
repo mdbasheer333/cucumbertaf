@@ -3,9 +3,10 @@ package org.cucumbertaf.stepdefs.orders;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.cucumbertaf.context.TestContext;
+import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.pageobjects.loginpage.LoginPage;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class OrderStepDef{
     @When("checks out the order")
     public void checks_out_the_order() {
         System.out.println("------checks_out_the_order----------");
+        Assert.assertEquals(1, 2, "i am in checks_out_the_order");
         log.log("i am in checks_out_the_order");
     }
     @When("submits the order")

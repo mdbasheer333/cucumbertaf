@@ -3,7 +3,7 @@ package org.cucumbertaf.stepdefs.registeration;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.cucumbertaf.context.TestContext;
+import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.pageobjects.registerpage.RegisterPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;

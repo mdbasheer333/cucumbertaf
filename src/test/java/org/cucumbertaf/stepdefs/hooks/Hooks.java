@@ -1,16 +1,13 @@
 package org.cucumbertaf.stepdefs.hooks;
 
 import io.cucumber.java.*;
-import org.cucumbertaf.context.TestContext;
+import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.corelib.DriverClass;
 import org.cucumbertaf.utils.Globals;
 import org.cucumbertaf.utils.excel.ExcelReader;
 import org.cucumbertaf.utils.property.PropertyUtil;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Hooks {
 
