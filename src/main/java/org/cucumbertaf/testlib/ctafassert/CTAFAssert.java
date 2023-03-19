@@ -1,4 +1,4 @@
-package org.cucumbertaf.utils.ctafassert;
+package org.cucumbertaf.testlib.ctafassert;
 
 import io.cucumber.java.Scenario;
 import org.testng.Assert;

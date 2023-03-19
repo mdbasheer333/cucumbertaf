@@ -1,11 +1,10 @@
 package org.cucumbertaf.stepdefs.registeration;
 
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.pageobjects.registerpage.RegisterPage;
-import org.cucumbertaf.utils.ctafassert.CTAFAssert;
+import org.cucumbertaf.testlib.ctafassert.CTAFAssert;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
