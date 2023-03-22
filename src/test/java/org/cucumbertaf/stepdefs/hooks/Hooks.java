@@ -12,16 +12,13 @@ import org.openqa.selenium.TakesScreenshot;
 public class Hooks {
 
     private final TestContext testContext;
-//    static Map<String, Integer> counterTracker;
 
     public Hooks(TestContext testContext) {
         this.testContext = testContext;
-
     }
 
     @BeforeAll
     public static void beforeAll() {
-        //Globals.counterTracker = new HashMap<>();
     }
 
     @Before
@@ -34,15 +31,24 @@ public class Hooks {
         this.testContext.logger = scenario;
 
         String featureNameTemp = this.testContext.featureName.split("/")[this.testContext.featureName.split("/").length - 1].replaceAll(".feature", "");
-        int iteraration = Globals.counterTracker.get().getOrDefault(featureNameTemp, 1);
-        System.out.println("iterarationiterarationiteraration " + iteraration);
+        int current_iteration = Globals.counterTracker.get().getOrDefault(featureNameTemp, 1);
+        int total_scenarios_count = Globals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
 
-        ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, iteraration);
+        int iteration_select = Globals.counterTracker.get().get("current_iteration");
+
+        ExcelReader reader = new ExcelReader(this.testContext.featureName, this.testContext.scenarioName, iteration_select);
         this.testContext.data = reader.getAllData();
         scenario.log("browser name: " + browser);
         scenario.log("feature name: " + this.testContext.featureName);
         scenario.log("scenario name: " + this.testContext.scenarioName);
         scenario.log("data used is: " + this.testContext.data);
+
+        if (current_iteration % total_scenarios_count == 0) {
+            Globals.counterTracker.get().put("current_iteration", Globals.counterTracker.get().get("current_iteration")+1);
+        }
+
+        Globals.counterTracker.get().put(featureNameTemp, current_iteration + 1);
+
     }
 
     @BeforeStep
@@ -53,7 +59,7 @@ public class Hooks {
     public void afterStep(Scenario scenario) {
         if (scenario.isFailed() || !scenario.isFailed()) {
             byte[] screenshot = ((TakesScreenshot) this.testContext.driver).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", scenario.getId());
+            scenario.attach(screenshot, "image/png", scenario.getName());
         }
     }
 
@@ -64,9 +70,6 @@ public class Hooks {
             byte[] screenshot = ((TakesScreenshot) this.testContext.driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getName());
         }
-//        if (this.testContext.driver != null) {
-//            this.testContext.driver.quit();
-//        }
     }
 
     @AfterAll

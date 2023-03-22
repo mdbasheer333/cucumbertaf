@@ -6,31 +6,21 @@
         <listener class-name="org.cucumbertaf.testlib.ctaflisteners.CTAFListener"/>
     </listeners>
 
-    <test name="register_1" preserve-order="true">
+    <test name="register" preserve-order="true">
         <parameter name="cucumber.features" value="src/test/resources/features/registration/register.feature"/>
         <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
         <parameter name="featurename" value="register"/>
-        <parameter name="iteration" value="1"/>
+        <parameter name="iterations" value="1"/>
         <classes>
             <class name="org.cucumbertaf.runner.RunCucumberTest"/>
         </classes>
     </test>
 
-    <test name="order_1" preserve-order="true">
+    <test name="order" preserve-order="true">
         <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>
         <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
         <parameter name="featurename" value="order"/>
-        <parameter name="iteration" value="1"/>
-        <classes>
-            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
-        </classes>
-    </test>
-
-    <test name="order_2" preserve-order="true">
-        <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>
-        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
-        <parameter name="featurename" value="order"/>
-        <parameter name="iteration" value="2"/>
+        <parameter name="iterations" value="4"/>
         <classes>
             <class name="org.cucumbertaf.runner.RunCucumberTest"/>
         </classes>
