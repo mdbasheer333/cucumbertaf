@@ -1,7 +1,5 @@
 package org.cucumbertaf.utils.mail;
 
-import org.apache.poi.poifs.crypt.agile.PasswordKeyEncryptor;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -46,7 +44,7 @@ public class MailUtil {
             msg.addHeader("format", "flowed");
             msg.addHeader("Content-Transfer-Encoding", "8bit");
             msg.setFrom(new InternetAddress("mdbasheer333@gmail.com", "mdbasheer333@gmail.com"));
-            msg.setReplyTo(InternetAddress.parse("to mail id", false));
+            msg.setReplyTo(InternetAddress.parse("contact.a4t@gmail.com", false));
             msg.setSubject("Test Report by Automation", "UTF-8");
             msg.setSentDate(new Date());
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("mdbasheer333@gmail.com"));
@@ -56,15 +54,15 @@ public class MailUtil {
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             messageBodyPart = new MimeBodyPart();
-            String filename = System.getProperty("user.dir")+ "/test-output/HtmlReport/cucumbertaf.html";
+            String filename = System.getProperty("user.dir") + "/test-output/HtmlReport/"+"cucumbertaf.html";
 
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(filename);
+            messageBodyPart.setFileName("cucumbertaf.html");
             messageBodyPart.setHeader("Content-ID", "image_id");
-            File f = new File(System.getProperty("user.dir") + "/test-output/screenshots/");
+            File f = new File(System.getProperty("user.dir") + "/test-output/");
             String[] myFiles = f.list();
-            String path = System.getProperty("user.dir") + "/test-output/screenshots/";
+            String path = System.getProperty("user.dir") + "/test-output/";
             for (int i = 0; i < Objects.requireNonNull(myFiles).length; i++) {
                 myFiles[i] = path + myFiles[i];
             }
@@ -88,7 +86,7 @@ public class MailUtil {
             multipart.addBodyPart(messageBodyPart);
             messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent("<h1>Attached is the zip</h1>", "text/html");
-            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(messageBodyPart2);
 
             msg.setContent(multipart);
 
