@@ -1,5 +1,7 @@
 package org.cucumbertaf.utils.mail;
 
+import org.cucumbertaf.utils.property.PropertyUtil;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -25,9 +27,13 @@ public class MailUtil {
         props.put("mail.smtp.port", "465");
         props.put("mail.smtp.starttls.enable", "true");
 
+        String sender_mail = PropertyUtil.getProperty("sendermail");
+        String sender_pwd = CryptoUtil.getDecryptedPassword(PropertyUtil.getProperty("senderpassword"));
+        String recipientslist = PropertyUtil.getProperty("recipientslist");
+
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("contact.a4t@gmail.com", "");
+                return new PasswordAuthentication(sender_mail, sender_pwd);
             }
         });
 
@@ -43,18 +49,17 @@ public class MailUtil {
             msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
             msg.addHeader("format", "flowed");
             msg.addHeader("Content-Transfer-Encoding", "8bit");
-            msg.setFrom(new InternetAddress("mdbasheer333@gmail.com", "mdbasheer333@gmail.com"));
-            msg.setReplyTo(InternetAddress.parse("contact.a4t@gmail.com", false));
             msg.setSubject("Test Report by Automation", "UTF-8");
             msg.setSentDate(new Date());
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("mdbasheer333@gmail.com"));
+
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientslist));
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText("Find mail as report");
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             messageBodyPart = new MimeBodyPart();
-            String filename = System.getProperty("user.dir") + "/test-output/HtmlReport/"+"cucumbertaf.html";
+            String filename = System.getProperty("user.dir") + "/test-output/HtmlReport/" + "cucumbertaf.html";
 
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
@@ -93,12 +98,13 @@ public class MailUtil {
             Transport.send(msg);
             System.out.println("EMail Sent Successfully with image!!");
 
-        } catch (MessagingException | UnsupportedEncodingException e) {
+        } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
 
     private static class FileZipping {
+
         private static final int BUFFER_SIZE = 4096;
 
         public static void zip(List<File> listFiles, String destZipFile) throws IOException {
