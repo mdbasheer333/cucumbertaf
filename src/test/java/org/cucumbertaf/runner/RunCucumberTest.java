@@ -39,7 +39,7 @@ public class RunCucumberTest {
             testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
         }
         List<Object[]> lst = new ArrayList<>();
-        String fName = context.getCurrentXmlTest().getParameter("cucumber.features");
+        String fName = context.getCurrentXmlTest().getParameter("featurename")+".feature";
         int iterations = Integer.parseInt(context.getCurrentXmlTest().getParameter("iterations"));
         Object[][] obj = testNGCucumberRunner.provideScenarios();
         for (int j = 0; j < iterations; j++) {
@@ -47,7 +47,7 @@ public class RunCucumberTest {
                 PickleWrapper p = ((PickleWrapper) obj[i][0]);
                 String[] var1 = p.getPickle().getUri().getPath().split("/");
                 String f_Name = var1[var1.length - 1];
-                if (fName.endsWith(f_Name)) {
+                if (fName.equalsIgnoreCase(f_Name)) {
                     lst.add(obj[i]);
                 }
             }
