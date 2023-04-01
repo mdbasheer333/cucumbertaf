@@ -7,7 +7,7 @@ public class CryptoUtil {
 
     public static void main(String... args) throws Exception {
 
-        String encrptData= "your password here";
+        String encrptData= "urchizyebctpngmx";
         byte[] encodedBytes = Base64.getEncoder().encode(encrptData.getBytes());
         String encrypted = new String(encodedBytes);
         System.out.println("encodedBytes --------------->" + encrypted);

@@ -1,5 +1,7 @@
 package org.cucumbertaf.utils.mail;
 
+import org.cucumbertaf.utils.Globals;
+import org.cucumbertaf.utils.excel.ExcelReader;
 import org.cucumbertaf.utils.property.PropertyUtil;
 
 import javax.activation.DataHandler;
@@ -27,9 +29,12 @@ public class MailUtil {
         props.put("mail.smtp.port", "465");
         props.put("mail.smtp.starttls.enable", "true");
 
-        String sender_mail = PropertyUtil.getProperty("sendermail");
-        String sender_pwd = CryptoUtil.getDecryptedPassword(PropertyUtil.getProperty("senderpassword"));
-        String recipientslist = PropertyUtil.getProperty("recipientslist");
+        ExcelReader excelReader = new ExcelReader(Globals.mail_exl_path, "mail");
+        List<Map<String, String>> allSheetData = excelReader.getAllSheetData();
+
+        String sender_mail = allSheetData.get(0).get("sendermail");
+        String sender_pwd = CryptoUtil.getDecryptedPassword(allSheetData.get(0).get("senderpassword"));
+        String recipientslist = allSheetData.get(0).get("recipientslist");
 
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
