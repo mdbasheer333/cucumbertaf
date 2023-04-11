@@ -16,6 +16,7 @@ public class RegisterStepDef {
     private final WebDriver driver;
     private final List<Map<String, String>> data;
     private final CTAFAssert assertLogger;
+    private final TestContext context;
 
     RegisterPage registerPage;
 
@@ -25,6 +26,7 @@ public class RegisterStepDef {
         registerPage = new RegisterPage(this.driver);
         context.registerPage = registerPage;
         assertLogger = new CTAFAssert(context.logger);
+        this.context = context;
     }
 
     @When("register page should displayed")
@@ -36,7 +38,7 @@ public class RegisterStepDef {
     @When("fill all the details in registration page")
     public void fill_all_the_details_in_registration_page() {
         registerPage.fillRegistrationDetails(data.get(0));
-        assertLogger.log("ia m in fill_all_the_details_in_registration_page");
+        assertLogger.log("ia m in fill_all_the_details_in_registration_page ");
     }
 
     @When("submits the details")
@@ -49,6 +51,7 @@ public class RegisterStepDef {
     @Then("registration should be success")
     public void registration_should_be_success() {
         System.out.println("-------registration_should_be_success");
+        assertLogger.log("registration_should_be_success and also " + this.context.some_info);
     }
 
 }

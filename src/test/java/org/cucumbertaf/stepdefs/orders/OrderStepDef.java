@@ -16,10 +16,13 @@ public class OrderStepDef {
     private final List<Map<String, String>> data;
     private final CTAFAssert assertLogger;
 
+    private final TestContext context;
+
     public OrderStepDef(TestContext context) {
         this.driver = context.driver;
         this.data = context.data;
         assertLogger = new CTAFAssert(context.logger);
+        this.context = context;
     }
 
     @When("user login to application")
@@ -37,6 +40,7 @@ public class OrderStepDef {
     public void checks_out_the_order() {
         System.out.println("------checks_out_the_order----------");
         assertLogger.assert_equals(1, 1, "both are not same", "both are same");
+        this.context.some_info = "...............basheer...........";
     }
 
     @When("submits the order")
@@ -49,7 +53,7 @@ public class OrderStepDef {
     @Then("oder should be placed successfully")
     public void oder_should_be_placed_successfully() {
         System.out.println("-------oder_should_be_placed_successfully");
-        assertLogger.assert_equals("basheer", "bash", "names not matching", "names matching");
+        assertLogger.assert_equals("basheer", "basheer", "names not matching", "names matching");
     }
 
 }

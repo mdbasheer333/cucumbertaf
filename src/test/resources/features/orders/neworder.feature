@@ -7,6 +7,7 @@ Feature: this feature is to order an item new
     And checks out the order
     When submits the order
     Then oder should be placed successfully
+    Then registration should be success
 
   @Order
   Scenario: item order process2 new
