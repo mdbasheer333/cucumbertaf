@@ -7,6 +7,7 @@ Feature: this feature is to order an item
     And checks out the order
     When submits the order
     Then oder should be placed successfully
+    Then registration should be success
 
   @Order
   Scenario: item order process2
@@ -15,6 +16,7 @@ Feature: this feature is to order an item
     And checks out the order
     When submits the order
     Then oder should be placed successfully
+    Then registration should be success
 
 #  Scenario Template: item order process <Iteration>
 #    Given user launches application

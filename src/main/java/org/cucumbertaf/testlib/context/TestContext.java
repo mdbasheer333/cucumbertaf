@@ -12,9 +12,9 @@ public class TestContext {
     public String featureName;
     public String scenarioName;
     public List<Map<String,String>> data;
-
     public Scenario logger;
-
     public RegisterPage registerPage;
+
+    public String someVariable;
 
 }

@@ -15,11 +15,15 @@ public class OrderStepDef {
     private final WebDriver driver;
     private final List<Map<String, String>> data;
     private final CTAFAssert assertLogger;
+    private final TestContext testContext;
+
+    private String str;
 
     public OrderStepDef(TestContext context) {
         this.driver = context.driver;
         this.data = context.data;
         assertLogger = new CTAFAssert(context.logger);
+        this.testContext=context;
     }
 
     @When("user login to application")
@@ -30,7 +34,8 @@ public class OrderStepDef {
         String username = data.get(0).get("email");
         String password = data.get(0).get("password");
         loginPage.loginToApp(username, password);
-        assertLogger.log("i am in user_login_to_application");
+        this.str=this.testContext.someVariable;
+        assertLogger.log("i am in user_login_to_application " + this.str);
     }
 
     @When("checks out the order")

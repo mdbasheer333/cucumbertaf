@@ -17,6 +17,9 @@ public class RegisterStepDef {
     private final List<Map<String, String>> data;
     private final CTAFAssert assertLogger;
 
+
+    private final TestContext testContext;
+
     RegisterPage registerPage;
 
     public RegisterStepDef(TestContext context) {
@@ -24,13 +27,14 @@ public class RegisterStepDef {
         this.data = context.data;
         registerPage = new RegisterPage(this.driver);
         context.registerPage = registerPage;
+        this.testContext=context;
         assertLogger = new CTAFAssert(context.logger);
     }
 
     @When("register page should displayed")
     public void register_page_should_displayed() {
         registerPage.load("https://demo.nopcommerce.com/register?returnUrl=%2F");
-        assertLogger.log("navigated to page");
+        this.testContext.someVariable="ajsdlksajdlk lkjasd lkjasdlk lkjasdlkasjd ";
     }
 
     @When("fill all the details in registration page")

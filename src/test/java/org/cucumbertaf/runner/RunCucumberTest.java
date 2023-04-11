@@ -1,10 +1,11 @@
 package org.cucumbertaf.runner;
 
-import io.cucumber.testng.CucumberOptions;
-import io.cucumber.testng.FeatureWrapper;
-import io.cucumber.testng.PickleWrapper;
-import io.cucumber.testng.TestNGCucumberRunner;
+
 import org.cucumbertaf.corelib.DriverClass;
+import org.cucumbertaf.ctaftestng.CucumberOptions;
+import org.cucumbertaf.ctaftestng.FeatureWrapper;
+import org.cucumbertaf.ctaftestng.PickleWrapper;
+import org.cucumbertaf.ctaftestng.TestNGCucumberRunner;
 import org.cucumbertaf.utils.Globals;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
@@ -17,7 +18,7 @@ import java.util.List;
                 "json:target/cucumber-reports/cucumber.json",
                 "rerun:target/failedrerun.txt",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
-        features = {"src/test/resources"},
+        features = {"src/test/resources/features"},
         glue = {"org.cucumbertaf.stepdefs", "org.cucumbertaf.hooks"})
 public class RunCucumberTest {
 
@@ -47,7 +48,7 @@ public class RunCucumberTest {
                 PickleWrapper p = ((PickleWrapper) obj[i][0]);
                 String[] var1 = p.getPickle().getUri().getPath().split("/");
                 String f_Name = var1[var1.length - 1];
-                if (fName.equalsIgnoreCase(f_Name)) {
+                if (fName.equalsIgnoreCase(f_Name) || f_Name.equalsIgnoreCase(context.getCurrentXmlTest().getParameter("featurename")+"_"+(j+1)+".feature")) {
                     lst.add(obj[i]);
                 }
             }
