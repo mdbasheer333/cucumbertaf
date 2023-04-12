@@ -11,19 +11,18 @@ public class ExtentReportingService {
 
     private static ExtentReports extent;
     private static Platform platform;
-    private static final String reportFileName = "cucumbertaf_new.html";
+    private static final String reportFileName = "cucumbertaf.html";
     private static final String macPath = System.getProperty("user.dir") + "/test-output/HtmlReport";
     private static final String windowsPath = System.getProperty("user.dir") + "\\test-output\\HtmlReport\\";
 
     public static String getScreenshot_path() {
+
         return screenshot_path;
     }
 
-    private static final String screenshot_path = System.getProperty("user.dir") + "\\test-output\\screenshots\\";
+    private static final String screenshot_path = System.getProperty("user.dir") + "\\test-output\\HtmlReport\\screenshots\\";
     private static final String macReportFileLoc = macPath + "/" + reportFileName;
     private static final String winReportFileLoc = windowsPath + "\\" + reportFileName;
-
-
 
     public static synchronized ExtentReports getInstance() {
         if (extent == null)
@@ -51,6 +50,7 @@ public class ExtentReportingService {
             case WINDOWS:
                 reportFileLocation = winReportFileLoc;
                 createReportPath(windowsPath);
+                createReportPath(screenshot_path);
                 System.out.println("ExtentReport Path for WINDOWS: " + windowsPath + "\n");
                 break;
             default:

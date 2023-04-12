@@ -70,9 +70,9 @@ public class MailUtil {
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName("cucumbertaf.html");
             messageBodyPart.setHeader("Content-ID", "image_id");
-            File f = new File(System.getProperty("user.dir") + "/test-output/");
+            File f = new File(System.getProperty("user.dir") + "/test-output/HtmlReport/");
             String[] myFiles = f.list();
-            String path = System.getProperty("user.dir") + "/test-output/";
+            String path = System.getProperty("user.dir") + "/test-output/HtmlReport/";
             for (int i = 0; i < Objects.requireNonNull(myFiles).length; i++) {
                 myFiles[i] = path + myFiles[i];
             }

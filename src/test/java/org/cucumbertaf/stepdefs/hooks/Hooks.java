@@ -118,6 +118,7 @@ public class Hooks {
             this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " step is passed.....!");
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
             this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " step is failed.....!");
+            this.testContext.getExtentTest().fail(Globals.error);
         } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
             this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
         } else if (scenario.getStatus() == io.cucumber.java.Status.UNDEFINED) {
