@@ -2,31 +2,14 @@ package org.cucumbertaf.stepdefs.registeration;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.cucumbertaf.testbase.BaseStepDef;
 import org.cucumbertaf.testlib.context.TestContext;
-import org.cucumbertaf.pageobjects.registerpage.RegisterPage;
-import org.cucumbertaf.testlib.ctafassert.CTAFAssert;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-import java.util.List;
-import java.util.Map;
-
-public class RegisterStepDef {
-
-    private final WebDriver driver;
-    private final List<Map<String, String>> data;
-    private final CTAFAssert assertLogger;
-    private final TestContext context;
-
-    RegisterPage registerPage;
+public class RegisterStepDef extends BaseStepDef {
 
     public RegisterStepDef(TestContext context) {
-        this.driver = context.driver;
-        this.data = context.data;
-        registerPage = new RegisterPage(this.driver);
-        context.registerPage = registerPage;
-        assertLogger = new CTAFAssert(context.logger);
-        this.context = context;
+        super(context);
     }
 
     @When("register page should displayed")
@@ -51,7 +34,7 @@ public class RegisterStepDef {
     @Then("registration should be success")
     public void registration_should_be_success() {
         System.out.println("-------registration_should_be_success");
-        assertLogger.log("registration_should_be_success and also " + this.context.some_info);
+        assertLogger.log("registration_should_be_success and also " + this.context.getSome_info());
     }
 
 }

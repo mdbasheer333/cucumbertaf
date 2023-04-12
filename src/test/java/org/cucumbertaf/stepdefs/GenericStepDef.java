@@ -21,9 +21,9 @@ public class GenericStepDef {
     protected final Scenario log;
 
     public GenericStepDef(TestContext context) {
-        this.driver = context.driver;
-        this.data = context.data;
-        this.log = context.logger;
+        this.driver = context.getDriver();
+        this.data = context.getData();
+        this.log = context.getLogger();
     }
 
     @Given("user launches application")

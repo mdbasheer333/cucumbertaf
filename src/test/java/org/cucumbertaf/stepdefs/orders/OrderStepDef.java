@@ -2,33 +2,18 @@ package org.cucumbertaf.stepdefs.orders;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.cucumbertaf.testbase.BaseStepDef;
 import org.cucumbertaf.testlib.context.TestContext;
-import org.cucumbertaf.pageobjects.loginpage.LoginPage;
-import org.cucumbertaf.testlib.ctafassert.CTAFAssert;
-import org.openqa.selenium.WebDriver;
 
-import java.util.List;
-import java.util.Map;
-
-public class OrderStepDef {
-
-    private final WebDriver driver;
-    private final List<Map<String, String>> data;
-    private final CTAFAssert assertLogger;
-
-    private final TestContext context;
+public class OrderStepDef extends BaseStepDef {
 
     public OrderStepDef(TestContext context) {
-        this.driver = context.driver;
-        this.data = context.data;
-        assertLogger = new CTAFAssert(context.logger);
-        this.context = context;
+        super(context);
     }
 
     @When("user login to application")
     public void user_login_to_application() {
         System.out.println("-------user_login_to_application " + data);
-        LoginPage loginPage = new LoginPage(driver);
         loginPage.load("https://demo.nopcommerce.com/login?returnUrl=%2F");
         String username = data.get(0).get("email");
         String password = data.get(0).get("password");
@@ -40,7 +25,7 @@ public class OrderStepDef {
     public void checks_out_the_order() {
         System.out.println("------checks_out_the_order----------");
         assertLogger.assert_equals(1, 1, "both are not same", "both are same");
-        this.context.some_info = "...............basheer...........";
+        this.context.setSome_info("...............basheer...........");
     }
 
     @When("submits the order")

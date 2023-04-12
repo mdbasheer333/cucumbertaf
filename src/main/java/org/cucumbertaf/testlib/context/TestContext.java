@@ -8,21 +8,60 @@ import java.util.List;
 import java.util.Map;
 
 public class TestContext {
-    public WebDriver driver;
-    public String featureName;
-    public String scenarioName;
-    public List<Map<String, String>> data;
-    public Scenario logger;
-    public RegisterPage registerPage;
 
-    public String some_info;
+    private WebDriver driver;
+    private String featureName;
+    private String scenarioName;
+    private List<Map<String, String>> data;
+    private Scenario logger;
+    private String some_info;
 
-//    public String getSome_info() {
-//        return some_info;
-//    }
-//
-//    public void setSome_info(String some_info) {
-//        this.some_info = some_info;
-//    }
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void setFeatureName(String featureName) {
+        this.featureName = featureName;
+    }
+
+    public void setScenarioName(String scenarioName) {
+        this.scenarioName = scenarioName;
+    }
+
+    public void setData(List<Map<String, String>> data) {
+        this.data = data;
+    }
+
+    public void setLogger(Scenario logger) {
+        this.logger = logger;
+    }
+
+    public void setSome_info(String some_info) {
+        this.some_info = some_info;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public String getFeatureName() {
+        return featureName;
+    }
+
+    public String getScenarioName() {
+        return scenarioName;
+    }
+
+    public List<Map<String, String>> getData() {
+        return data;
+    }
+
+    public Scenario getLogger() {
+        return logger;
+    }
+
+    public String getSome_info() {
+        return some_info;
+    }
 
 }
