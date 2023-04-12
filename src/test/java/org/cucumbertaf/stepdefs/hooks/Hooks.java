@@ -101,23 +101,23 @@ public class Hooks {
 //        }
         curr_step_name = testSteps.get(stepCount++).getStep().getText();
         //this.testContext.getExtentTest().createNode(curr_step_name).log(Status.INFO,  curr_step_name+ " is started.....!");
-        this.testContext.getExtentTest().log(Status.INFO, curr_step_name + " is started.....!");
+        //this.testContext.getExtentTest().log(Status.INFO, curr_step_name + " is started.....!");
     }
 
     @AfterStep
     public void afterStep(Scenario scenario) throws IOException {
-        if (scenario.isFailed() || !scenario.isFailed()) {
+        if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
+            //this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " step is passed.....!");
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            //scenario.attach(screenshot, "image/png", scenario.getName());
             String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
-            //this.testContext.getExtentTest().addScreenCaptureFromBase64String(screenshot, curr_step_name + " -- " + scenario.getStatus());
-            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
-        }
-        if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
-            this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " step is passed.....!");
+            this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
-            this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " step is failed.....!");
+            //this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " step is failed.....!");
+            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
+            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
+            FileHandler.copy(screenshot, new File(dest_path));
+            this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
             this.testContext.getExtentTest().fail(Globals.error);
         } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
             this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
@@ -130,33 +130,39 @@ public class Hooks {
         } else {
             this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is not defined.....!");
         }
+//        if (scenario.isFailed() || !scenario.isFailed()) {
+//            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
+//            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
+//            FileHandler.copy(screenshot, new File(dest_path));
+//            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+//        }
     }
 
     @After
     public void after(Scenario scenario) throws IOException {
-        if (scenario.isFailed() || !scenario.isFailed()) {
-            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            //scenario.attach(screenshot, "image/png", scenario.getName());
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
-            FileHandler.copy(screenshot, new File(dest_path));
-            //this.testContext.getExtentTest().addScreenCaptureFromBase64String(screenshot, curr_step_name + " -- " + scenario.getStatus());
-            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
-        }
-        if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
-            this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " scenario is passed.....!");
-        } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
-            this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " scenario is failed.....!");
-        } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
-            this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " scenario is skipped.....!");
-        } else if (scenario.getStatus() == io.cucumber.java.Status.UNDEFINED) {
-            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is undefined.....!");
-        } else if (scenario.getStatus() == io.cucumber.java.Status.PENDING) {
-            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is pending.....!");
-        } else if (scenario.getStatus() == io.cucumber.java.Status.AMBIGUOUS) {
-            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is ambiguous.....!");
-        } else {
-            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is not defined.....!");
-        }
+//        if (scenario.isFailed() || !scenario.isFailed()) {
+//            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
+//            //scenario.attach(screenshot, "image/png", scenario.getName());
+//            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
+//            FileHandler.copy(screenshot, new File(dest_path));
+//            //this.testContext.getExtentTest().addScreenCaptureFromBase64String(screenshot, curr_step_name + " -- " + scenario.getStatus());
+//            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+//        }
+//        if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
+//            this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " scenario is passed.....!");
+//        } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
+//            this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " scenario is failed.....!");
+//        } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
+//            this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " scenario is skipped.....!");
+//        } else if (scenario.getStatus() == io.cucumber.java.Status.UNDEFINED) {
+//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is undefined.....!");
+//        } else if (scenario.getStatus() == io.cucumber.java.Status.PENDING) {
+//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is pending.....!");
+//        } else if (scenario.getStatus() == io.cucumber.java.Status.AMBIGUOUS) {
+//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is ambiguous.....!");
+//        } else {
+//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is not defined.....!");
+//        }
     }
 
     @AfterAll
