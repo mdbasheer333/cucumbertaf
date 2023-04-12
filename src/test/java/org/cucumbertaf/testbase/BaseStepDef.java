@@ -22,7 +22,7 @@ public class BaseStepDef {
     public BaseStepDef(TestContext context) {
         this.driver = context.getDriver();
         this.data = context.getData();
-        this.assertLogger = new CTAFAssert(context.getLogger());
+        this.assertLogger = new CTAFAssert(context.getExtentTest());
         this.context = context;
         this.registerPage = new RegisterPage(this.driver);
         this.loginPage = new LoginPage(driver);

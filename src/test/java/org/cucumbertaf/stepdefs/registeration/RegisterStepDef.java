@@ -27,7 +27,7 @@ public class RegisterStepDef extends BaseStepDef {
     @When("submits the details")
     public void submis_the_details() {
         registerPage.submitRegistrationDetails();
-        Assert.assertEquals("", "");
+        assertLogger.assert_equals("a", "a","values are not same", "values are same");
         assertLogger.log("ia m in submis_the_details");
     }
 

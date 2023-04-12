@@ -1,5 +1,6 @@
 package org.cucumbertaf.testlib.context;
 
+import com.aventstack.extentreports.ExtentTest;
 import io.cucumber.java.Scenario;
 import org.cucumbertaf.pageobjects.registerpage.RegisterPage;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +16,15 @@ public class TestContext {
     private List<Map<String, String>> data;
     private Scenario logger;
     private String some_info;
+    private ExtentTest extentTest;
+
+    public ExtentTest getExtentTest() {
+        return extentTest;
+    }
+
+    public void setExtentTest(ExtentTest extentTest) {
+        this.extentTest = extentTest;
+    }
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;

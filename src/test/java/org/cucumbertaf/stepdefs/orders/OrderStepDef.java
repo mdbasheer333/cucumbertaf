@@ -24,8 +24,8 @@ public class OrderStepDef extends BaseStepDef {
     @When("checks out the order")
     public void checks_out_the_order() {
         System.out.println("------checks_out_the_order----------");
-        assertLogger.assert_equals(1, 1, "both are not same", "both are same");
         this.context.setSome_info("...............basheer...........");
+        assertLogger.assert_equals(1, 1, "both are not same", "both are same");
     }
 
     @When("submits the order")
@@ -38,7 +38,7 @@ public class OrderStepDef extends BaseStepDef {
     @Then("oder should be placed successfully")
     public void oder_should_be_placed_successfully() {
         System.out.println("-------oder_should_be_placed_successfully");
-        assertLogger.assert_equals("basheer", "basheer", "names not matching", "names matching");
+        assertLogger.assert_equals("basheer", "basheer1", "names not matching", "names matching");
     }
 
 }

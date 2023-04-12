@@ -15,8 +15,7 @@ import java.util.List;
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber-reports/cucumber.html",
                 "json:target/cucumber-reports/cucumber.json",
-                "rerun:target/failedrerun.txt",
-                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
+                "rerun:target/failedrerun.txt"},
         features = {"src/test/resources"},
         glue = {"org.cucumbertaf.stepdefs", "org.cucumbertaf.hooks"})
 public class RunCucumberTest {
@@ -35,11 +34,11 @@ public class RunCucumberTest {
 
     @DataProvider
     public Object[][] scenarios(ITestContext context) {
-        if(testNGCucumberRunner==null){
+        if (testNGCucumberRunner == null) {
             testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
         }
         List<Object[]> lst = new ArrayList<>();
-        String fName = context.getCurrentXmlTest().getParameter("featurename")+".feature";
+        String fName = context.getCurrentXmlTest().getParameter("featurename") + ".feature";
         int iterations = Integer.parseInt(context.getCurrentXmlTest().getParameter("iterations"));
         Object[][] obj = testNGCucumberRunner.provideScenarios();
         for (int j = 0; j < iterations; j++) {
