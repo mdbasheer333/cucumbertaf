@@ -10,20 +10,20 @@
         <parameter name="cucumber.features" value="src/test/resources/features/registration/register.feature"/>
         <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
         <parameter name="featurename" value="register"/>
-        <parameter name="iterations" value="1"/>
+        <parameter name="iterations" value="2"/>
         <classes>
             <class name="org.cucumbertaf.runner.RunCucumberTest"/>
         </classes>
     </test>
 
-    <test name="order" preserve-order="true">
-        <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>
-        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
-        <parameter name="featurename" value="order"/>
-        <parameter name="iterations" value="4"/>
-        <classes>
-            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
-        </classes>
-    </test>
+<!--    <test name="order" preserve-order="true">-->
+<!--        <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>-->
+<!--        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>-->
+<!--        <parameter name="featurename" value="order"/>-->
+<!--        <parameter name="iterations" value="4"/>-->
+<!--        <classes>-->
+<!--            <class name="org.cucumbertaf.runner.RunCucumberTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
 </suite>

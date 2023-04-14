@@ -2,7 +2,6 @@ package org.cucumbertaf.testlib.context;
 
 import com.aventstack.extentreports.ExtentTest;
 import io.cucumber.java.Scenario;
-import org.cucumbertaf.pageobjects.registerpage.RegisterPage;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;

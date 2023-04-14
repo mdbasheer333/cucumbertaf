@@ -3,7 +3,6 @@ package org.cucumbertaf.testlib.ctaflisteners;
 import org.cucumbertaf.utils.Globals;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
-import org.testng.ITestResult;
 
 import java.util.HashMap;
 import java.util.Map;

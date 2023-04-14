@@ -4,18 +4,16 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import io.cucumber.java.*;
 import io.cucumber.plugin.event.PickleStepTestStep;
-import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.corelib.DriverClass;
+import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.utils.Globals;
 import org.cucumbertaf.utils.excel.ExcelReader;
 import org.cucumbertaf.utils.property.PropertyUtil;
 import org.cucumbertaf.utils.reporter.ExtentReportingService;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.io.FileHandler;
 
 import java.io.File;
@@ -33,15 +31,9 @@ public class Hooks {
     private int iter = 0;
     private String curr_step_name = "";
 
-    //private static final ThreadLocal<ExtentTest> test = new ThreadLocal<>();
-
     public Hooks(TestContext testContext) {
         this.testContext = testContext;
     }
-
-//    public static synchronized ThreadLocal<ExtentTest> getLocalThreadExtentTest() {
-//        return test;
-//    }
 
     @BeforeAll
     public static void beforeAll() {
@@ -64,11 +56,6 @@ public class Hooks {
 
         ExcelReader reader = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
         this.testContext.setData(reader.getAllData());
-
-//        if (current_iteration == 1) {
-//            eTestThreadLocal.set(extent.createTest(featureNameTemp, "..........featureNameTemp............."));
-//        }
-//        this.testContext.setExtentTest(eTestThreadLocal.get());
 
         String info = "" + this.testContext.getData();
 
@@ -95,25 +82,17 @@ public class Hooks {
         f1.setAccessible(true);
         io.cucumber.plugin.event.TestCase testCase = (io.cucumber.plugin.event.TestCase) f1.get(sc);
         List<PickleStepTestStep> testSteps = testCase.getTestSteps().stream().filter(x -> x instanceof PickleStepTestStep).map(x -> (PickleStepTestStep) x).collect(Collectors.toList());
-
-//        for (PickleStepTestStep ts : testSteps) {
-//            System.out.println(ts.getStep().getKeyword() + ts.getStep().getText());
-//        }
         curr_step_name = testSteps.get(stepCount++).getStep().getText();
-        //this.testContext.getExtentTest().createNode(curr_step_name).log(Status.INFO,  curr_step_name+ " is started.....!");
-        //this.testContext.getExtentTest().log(Status.INFO, curr_step_name + " is started.....!");
     }
 
     @AfterStep
     public void afterStep(Scenario scenario) throws IOException {
         if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
-            //this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " step is passed.....!");
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
             String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
-            //this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " step is failed.....!");
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
             String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
@@ -130,12 +109,6 @@ public class Hooks {
         } else {
             this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is not defined.....!");
         }
-//        if (scenario.isFailed() || !scenario.isFailed()) {
-//            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-//            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
-//            FileHandler.copy(screenshot, new File(dest_path));
-//            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
-//        }
     }
 
     @After

@@ -2,7 +2,6 @@ package org.cucumbertaf.utils.mail;
 
 import org.cucumbertaf.utils.Globals;
 import org.cucumbertaf.utils.excel.ExcelReader;
-import org.cucumbertaf.utils.property.PropertyUtil;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
