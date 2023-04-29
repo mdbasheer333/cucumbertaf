@@ -37,7 +37,7 @@ public class Hooks {
 
     @BeforeAll
     public static void beforeAll() {
-        extent = ExtentReportingService.createInstance();
+        extent = ExtentReportingService.getInstance();
     }
 
     @Before

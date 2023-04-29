@@ -1,28 +1,31 @@
 package org.cucumbertaf.utils.reporter;
 
 import com.aventstack.extentreports.ExtentReports;
-
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import org.openqa.selenium.Platform;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class ExtentReportingService {
 
     private static ExtentReports extent;
-    private static Platform platform;
-    private static final String reportFileName = "cucumbertaf.html";
-    private static final String macPath = System.getProperty("user.dir") + "/test-output/HtmlReport";
-    private static final String windowsPath = System.getProperty("user.dir") + "\\test-output\\HtmlReport\\";
+    private static final String reportFileName = "cucumbertaf";
+
+    private static String report_path = "";
+    private static String screenshot_path = "";
+
+    public static String getReportFileName() {
+        return reportFileName;
+    }
 
     public static String getScreenshot_path() {
-
         return screenshot_path;
     }
 
-    private static final String screenshot_path = System.getProperty("user.dir") + "\\test-output\\HtmlReport\\screenshots\\";
-    private static final String macReportFileLoc = macPath + "/" + reportFileName;
-    private static final String winReportFileLoc = windowsPath + "\\" + reportFileName;
+    public static String get_report_path() {
+        return report_path;
+    }
 
     public static synchronized ExtentReports getInstance() {
         if (extent == null)
@@ -30,34 +33,24 @@ public class ExtentReportingService {
         return extent;
     }
 
-    public static ExtentReports createInstance() {
-        platform = getCurrentPlatform();
-        String fileName = getReportFileLocation(platform);
-        ExtentSparkReporter htmlReporter = new ExtentSparkReporter(fileName);
+    public static void createInstance() {
+        String fileNameWithPath = getReportFileLocation();
+        ExtentSparkReporter htmlReporter = new ExtentSparkReporter(fileNameWithPath);
+        htmlReporter.config().setDocumentTitle("cucumbertaf");
+        htmlReporter.config().setTimeStampFormat("EEEE, MMMM dd, yyyy, hh:mm a '('zzz')'");
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
-        return extent;
     }
 
-    private static String getReportFileLocation(Platform platform) {
-        String reportFileLocation = null;
-        switch (platform) {
-            case MAC:
-                reportFileLocation = macReportFileLoc;
-                createReportPath(macPath);
-                System.out.println("ExtentReport Path for MAC: " + macPath + "\n");
-                break;
-            case WINDOWS:
-                reportFileLocation = winReportFileLoc;
-                createReportPath(windowsPath);
-                createReportPath(screenshot_path);
-                System.out.println("ExtentReport Path for WINDOWS: " + windowsPath + "\n");
-                break;
-            default:
-                System.out.println("ExtentReport path has not been set! There is a problem!\n");
-                break;
-        }
-        return reportFileLocation;
+    private static String getReportFileLocation() {
+        String basePath = System.getProperty("user.dir");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        report_path = basePath + File.separator + "test-output" + File.separator + "HtmlReport_" + sdf.format(timestamp);
+        screenshot_path = report_path + File.separator + "screenshots" + File.separator;
+        createReportPath(report_path);
+        createReportPath(screenshot_path);
+        return report_path + File.separator + reportFileName + ".html";
     }
 
     private static void createReportPath(String path) {
@@ -71,21 +64,6 @@ public class ExtentReportingService {
         } else {
             System.out.println("Directory already exists: " + path);
         }
-    }
-
-    private static Platform getCurrentPlatform() {
-        if (platform == null) {
-            String operSys = System.getProperty("os.name").toLowerCase();
-            if (operSys.contains("win")) {
-                platform = Platform.WINDOWS;
-            } else if (operSys.contains("nix") || operSys.contains("nux")
-                    || operSys.contains("aix")) {
-                platform = Platform.LINUX;
-            } else if (operSys.contains("mac")) {
-                platform = Platform.MAC;
-            }
-        }
-        return platform;
     }
 
 }

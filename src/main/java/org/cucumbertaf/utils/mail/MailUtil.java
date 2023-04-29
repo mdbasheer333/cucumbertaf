@@ -1,5 +1,6 @@
 package org.cucumbertaf.utils.mail;
 
+import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.cucumbertaf.utils.Globals;
 import org.cucumbertaf.utils.excel.ExcelReader;
 
@@ -15,6 +16,11 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.comparator.LastModifiedFileComparator;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.cucumbertaf.utils.reporter.ExtentReportingService;
 
 public class MailUtil {
 
@@ -63,15 +69,16 @@ public class MailUtil {
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             messageBodyPart = new MimeBodyPart();
-            String filename = System.getProperty("user.dir") + "/test-output/HtmlReport/" + "cucumbertaf.html";
+            String folder_name = findLatestTestResultsFolderPath(System.getProperty("user.dir") + File.separator + "test-output") + File.separator;
+            String filename = folder_name + ExtentReportingService.getReportFileName() + ".html";
 
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName("cucumbertaf.html");
             messageBodyPart.setHeader("Content-ID", "image_id");
-            File f = new File(System.getProperty("user.dir") + "/test-output/HtmlReport/");
+            File f = new File(folder_name);
             String[] myFiles = f.list();
-            String path = System.getProperty("user.dir") + "/test-output/HtmlReport/";
+            String path = folder_name;
             for (int i = 0; i < Objects.requireNonNull(myFiles).length; i++) {
                 myFiles[i] = path + myFiles[i];
             }
@@ -162,6 +169,19 @@ public class MailUtil {
             zos.closeEntry();
         }
 
+    }
+
+    public static File findLatestTestResultsFolderPath(String sdir) {
+        File dir = new File(sdir);
+
+        if (dir.isDirectory()) {
+            File[] dirFiles = dir.listFiles((FileFilter) FileFilterUtils.directoryFileFilter());
+            if (dirFiles != null && dirFiles.length > 0) {
+                Arrays.sort(dirFiles, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+                return dirFiles[0];
+            }
+        }
+        return null;
     }
 
 }
