@@ -65,9 +65,14 @@ public class Hooks {
             eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + iteration_select, info));
             iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());
+            //this.testContext.getExtentTest().assignCategory(featureNameTemp+"_"+iteration_select);
         }
 
         this.testContext.setExtentTest(eTestThreadLocal.get().createNode(scenario.getName()));
+
+        for (String tagName:scenario.getSourceTagNames()) {
+            this.testContext.getExtentTest().assignCategory(tagName);
+        }
 
         if (current_iteration % total_scenarios_count == 0) {
             Globals.counterTracker.get().put("current_iteration", Globals.counterTracker.get().get("current_iteration") + 1);
