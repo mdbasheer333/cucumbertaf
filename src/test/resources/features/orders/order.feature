@@ -1,6 +1,6 @@
-Feature: this feature is to order an item
+Feature: this feature is to order an item1
 
-  @Order
+  @Order1
   Scenario: item order process1
     Given user launches application
     When user login to application
@@ -9,8 +9,16 @@ Feature: this feature is to order an item
     Then oder should be placed successfully
     Then registration should be success
 
-  @Order
+  @Order1
   Scenario: item order process2
+    Given user launches application
+    When user login to application
+    And checks out the order
+    When submits the order
+    Then oder should be placed successfully
+
+  @Order1
+  Scenario: item order process3
     Given user launches application
     When user login to application
     And checks out the order

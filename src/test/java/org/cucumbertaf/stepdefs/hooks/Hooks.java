@@ -59,9 +59,9 @@ public class Hooks {
 
         String info = "" + this.testContext.getData();
 
-        if ((current_iteration == 1 || current_iteration % total_scenarios_count != 0) || total_scenarios_count == 1) {
+        if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration-1)%total_scenarios_count == 0)) {
             eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + iteration_select, info));
-            iter = iteration_select;
+            iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());
         }
 

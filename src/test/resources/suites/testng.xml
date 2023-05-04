@@ -20,7 +20,7 @@
         <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>
         <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
         <parameter name="featurename" value="order"/>
-        <parameter name="iterations" value="2"/>
+        <parameter name="iterations" value="4"/>
         <classes>
             <class name="org.cucumbertaf.runner.RunCucumberTest"/>
         </classes>
@@ -38,10 +38,10 @@
 
     <test name="oldorder" preserve-order="true">
         <parameter name="cucumber.features" value="src/test/resources/features/orders/oldorder.feature"/>
-        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
-        <parameter name="featurename" value="oldorder"/>
-        <parameter name="iterations" value="3"/>
-        <classes>
+            <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+            <parameter name="featurename" value="oldorder"/>
+            <parameter name="iterations" value="1"/>
+            <classes>
             <class name="org.cucumbertaf.runner.RunCucumberTest"/>
         </classes>
     </test>
