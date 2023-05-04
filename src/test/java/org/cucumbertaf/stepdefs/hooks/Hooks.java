@@ -19,6 +19,8 @@ import org.openqa.selenium.io.FileHandler;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +61,7 @@ public class Hooks {
 
         String info = "" + this.testContext.getData();
 
-        if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration-1)%total_scenarios_count == 0)) {
+        if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
             eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + iteration_select, info));
             iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());
@@ -87,14 +89,19 @@ public class Hooks {
 
     @AfterStep
     public void afterStep(Scenario scenario) throws IOException {
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String time_stamp = sdf.format(timestamp);
+
         if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
+            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
+            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
             this.testContext.getExtentTest().fail(Globals.error);
@@ -113,29 +120,17 @@ public class Hooks {
 
     @After
     public void after(Scenario scenario) throws IOException {
-//        if (scenario.isFailed() || !scenario.isFailed()) {
-//            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-//            //scenario.attach(screenshot, "image/png", scenario.getName());
-//            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + iter + ".png";
-//            FileHandler.copy(screenshot, new File(dest_path));
-//            //this.testContext.getExtentTest().addScreenCaptureFromBase64String(screenshot, curr_step_name + " -- " + scenario.getStatus());
-//            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
-//        }
-//        if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
-//            this.testContext.getExtentTest().log(Status.PASS, curr_step_name + " scenario is passed.....!");
-//        } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
-//            this.testContext.getExtentTest().log(Status.FAIL, curr_step_name + " scenario is failed.....!");
-//        } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
-//            this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " scenario is skipped.....!");
-//        } else if (scenario.getStatus() == io.cucumber.java.Status.UNDEFINED) {
-//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is undefined.....!");
-//        } else if (scenario.getStatus() == io.cucumber.java.Status.PENDING) {
-//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is pending.....!");
-//        } else if (scenario.getStatus() == io.cucumber.java.Status.AMBIGUOUS) {
-//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is ambiguous.....!");
-//        } else {
-//            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " scenario is not defined.....!");
-//        }
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String time_stamp = sdf.format(timestamp);
+
+        if (scenario.isFailed() || !scenario.isFailed()) {
+            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
+            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+            FileHandler.copy(screenshot, new File(dest_path));
+            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+        }
     }
 
     @AfterAll
