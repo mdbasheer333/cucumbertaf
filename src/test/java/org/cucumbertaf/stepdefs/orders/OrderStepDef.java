@@ -29,9 +29,28 @@ public class OrderStepDef extends BaseStepDef {
     }
 
     @When("submits the order")
-    public void submis_the_order() {
-        System.out.println("-------submis_the_order");
-        assertLogger.log("i am in submis_the_order");
+    public void submits_the_order() {
+        System.out.println("checks_out_the_order......................");
+    }
+
+    @When("submits the order1")
+    public void submis_the_order1() {
+        System.out.println("-------submis_the_order1");
+        assertLogger.log("i am in submis_the_order1");
+        assertLogger.assert_contains(new Integer[]{1, 2, 3, 5}, 55, "55 is not there in arr", "55 is there in arr");
+    }
+
+    @When("submits the order2")
+    public void submis_the_order2() {
+        System.out.println("-------submis_the_order2");
+        assertLogger.log("i am in submis_the_order2");
+        assertLogger.assert_contains(new Integer[]{1, 2, 3, 5}, 5, "5 is not there in arr", "5 is there in arr");
+    }
+
+    @When("submits the order3")
+    public void submis_the_order3() {
+        System.out.println("-------submis_the_order3");
+        assertLogger.log("i am in submis_the_order3");
         assertLogger.assert_contains(new Integer[]{1, 2, 3, 5}, 5, "5 is not there in arr", "5 is there in arr");
     }
 

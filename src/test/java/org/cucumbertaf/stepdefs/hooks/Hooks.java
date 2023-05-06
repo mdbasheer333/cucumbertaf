@@ -32,6 +32,7 @@ public class Hooks {
     private int stepCount = 0;
     private int iter = 0;
     private String curr_step_name = "";
+    private List<PickleStepTestStep> testSteps=null;
 
     public Hooks(TestContext testContext) {
         this.testContext = testContext;
@@ -82,13 +83,15 @@ public class Hooks {
 
     @BeforeStep
     public void beforeStep(Scenario scenario) throws NoSuchFieldException, IllegalAccessException {
-        Field f = scenario.getClass().getDeclaredField("delegate");
-        f.setAccessible(true);
-        io.cucumber.core.backend.TestCaseState sc = (io.cucumber.core.backend.TestCaseState) f.get(scenario);
-        Field f1 = sc.getClass().getDeclaredField("testCase");
-        f1.setAccessible(true);
-        io.cucumber.plugin.event.TestCase testCase = (io.cucumber.plugin.event.TestCase) f1.get(sc);
-        List<PickleStepTestStep> testSteps = testCase.getTestSteps().stream().filter(x -> x instanceof PickleStepTestStep).map(x -> (PickleStepTestStep) x).collect(Collectors.toList());
+        if(testSteps==null){
+            Field f = scenario.getClass().getDeclaredField("delegate");
+            f.setAccessible(true);
+            io.cucumber.core.backend.TestCaseState sc = (io.cucumber.core.backend.TestCaseState) f.get(scenario);
+            Field f1 = sc.getClass().getDeclaredField("testCase");
+            f1.setAccessible(true);
+            io.cucumber.plugin.event.TestCase testCase = (io.cucumber.plugin.event.TestCase) f1.get(sc);
+            testSteps = testCase.getTestSteps().stream().filter(x -> x instanceof PickleStepTestStep).map(x -> (PickleStepTestStep) x).collect(Collectors.toList());
+        }
         curr_step_name = testSteps.get(stepCount++).getStep().getText();
     }
 
@@ -130,12 +133,43 @@ public class Hooks {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String time_stamp = sdf.format(timestamp);
 
-        if (scenario.isFailed() || !scenario.isFailed()) {
+        if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
             String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
-            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+            this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+        } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
+            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
+            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+            FileHandler.copy(screenshot, new File(dest_path));
+            this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+            this.testContext.getExtentTest().fail(Globals.error);
+            for (int i = stepCount; i < testSteps.size(); i++) {
+                curr_step_name = testSteps.get(i).getStep().getText();
+                this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
+            }
+        } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
+            this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
+        } else if (scenario.getStatus() == io.cucumber.java.Status.UNDEFINED) {
+            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is undefined.....!");
+        } else if (scenario.getStatus() == io.cucumber.java.Status.PENDING) {
+            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is pending.....!");
+        } else if (scenario.getStatus() == io.cucumber.java.Status.AMBIGUOUS) {
+            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is ambiguous.....!");
+        } else {
+            this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is not defined.....!");
         }
+
+//        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//        String time_stamp = sdf.format(timestamp);
+//
+//        if (scenario.isFailed() || !scenario.isFailed()) {
+//            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
+//            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+//            FileHandler.copy(screenshot, new File(dest_path));
+//            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+//        }
     }
 
     @AfterAll
