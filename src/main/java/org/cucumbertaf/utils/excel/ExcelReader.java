@@ -35,7 +35,7 @@ public class ExcelReader {
     public ExcelReader(String spath, String scenarioName, int iteration) {
         featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
         this.scenarioName = scenarioName;
-        filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\testdata\\" + featureName + ".xlsx";
+        filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\testdata\\testdata.xlsx";
         this.iteration = iteration;
     }
 
@@ -43,6 +43,9 @@ public class ExcelReader {
         try (FileInputStream fin = new FileInputStream(filePath)) {
             xssfWorkbook = new XSSFWorkbook(fin);
             xssfSheet = xssfWorkbook.getSheet(featureName);
+            if (xssfSheet==null){
+                return;
+            }
             xssfRowHeader = xssfSheet.getRow(0);
         } catch (IOException e) {
             //throw new RuntimeException(e);
