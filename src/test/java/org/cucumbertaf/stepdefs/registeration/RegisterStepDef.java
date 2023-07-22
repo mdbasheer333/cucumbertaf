@@ -28,6 +28,7 @@ public class RegisterStepDef extends BaseStepDef {
         registerPage.submitRegistrationDetails();
         assertLogger.assert_equals("a", "a","values are not same", "values are same");
         assertLogger.log("ia m in submis_the_details");
+        context.getExl_write_data_map().put("message", "registration success");
     }
 
     @Then("registration should be success")

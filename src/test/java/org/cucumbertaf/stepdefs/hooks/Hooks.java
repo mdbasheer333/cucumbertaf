@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Hooks {
@@ -32,7 +34,7 @@ public class Hooks {
     private int stepCount = 0;
     private int iter = 0;
     private String curr_step_name = "";
-    private List<PickleStepTestStep> testSteps=null;
+    private List<PickleStepTestStep> testSteps = null;
 
     public Hooks(TestContext testContext) {
         this.testContext = testContext;
@@ -60,6 +62,10 @@ public class Hooks {
         ExcelReader reader = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
         this.testContext.setData(reader.getAllData());
 
+        Map<String, Object> wd = new HashMap<>();
+        wd.put("iteration", iteration_select);
+        this.testContext.setExl_write_data_map(wd);
+
         String info = "" + this.testContext.getData();
 
         if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
@@ -71,7 +77,7 @@ public class Hooks {
 
         this.testContext.setExtentTest(eTestThreadLocal.get().createNode(scenario.getName()));
 
-        for (String tagName:scenario.getSourceTagNames()) {
+        for (String tagName : scenario.getSourceTagNames()) {
             this.testContext.getExtentTest().assignCategory(tagName);
         }
 
@@ -83,7 +89,7 @@ public class Hooks {
 
     @BeforeStep
     public void beforeStep(Scenario scenario) throws NoSuchFieldException, IllegalAccessException {
-        if(testSteps==null){
+        if (testSteps == null) {
             Field f = scenario.getClass().getDeclaredField("delegate");
             f.setAccessible(true);
             io.cucumber.core.backend.TestCaseState sc = (io.cucumber.core.backend.TestCaseState) f.get(scenario);
@@ -127,7 +133,7 @@ public class Hooks {
     }
 
     @After
-    public void after(Scenario scenario) throws IOException {
+    public void after(Scenario scenario) throws Exception {
 
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -160,6 +166,9 @@ public class Hooks {
             this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is not defined.....!");
         }
 
+        int iteration_select = (int) this.testContext.getExl_write_data_map().get("iteration");
+        ExcelReader writter = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
+        writter.writeToSheet(this.testContext.getExl_write_data_map(), iteration_select);
 //        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 //        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 //        String time_stamp = sdf.format(timestamp);

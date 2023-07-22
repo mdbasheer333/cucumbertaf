@@ -13,6 +13,7 @@ public class TestContext {
     private String featureName;
     private String scenarioName;
     private List<Map<String, String>> data;
+    private Map<String, Object> exl_write_data_map;
     private Scenario logger;
     private String some_info;
     private ExtentTest extentTest;
@@ -73,4 +74,11 @@ public class TestContext {
         return some_info;
     }
 
+    public Map<String, Object> getExl_write_data_map() {
+        return exl_write_data_map;
+    }
+
+    public void setExl_write_data_map(Map<String, Object> exl_write_data_map) {
+        this.exl_write_data_map = exl_write_data_map;
+    }
 }

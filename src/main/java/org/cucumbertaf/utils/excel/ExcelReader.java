@@ -1,13 +1,15 @@
 package org.cucumbertaf.utils.excel;
 
+import io.cucumber.java.bs.I;
+import io.cucumber.java.it.Ma;
+import io.cucumber.java.sl.In;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,7 @@ public class ExcelReader {
     String scenarioName;
     String sheetName;
 
+
     public ExcelReader(String spath, String sheetName) {
         filePath = spath;
         this.featureName = sheetName;
@@ -43,7 +46,7 @@ public class ExcelReader {
         try (FileInputStream fin = new FileInputStream(filePath)) {
             xssfWorkbook = new XSSFWorkbook(fin);
             xssfSheet = xssfWorkbook.getSheet(featureName);
-            if (xssfSheet==null){
+            if (xssfSheet == null) {
                 return;
             }
             xssfRowHeader = xssfSheet.getRow(0);
@@ -52,12 +55,52 @@ public class ExcelReader {
         }
     }
 
+    public void writeToSheet(Map<String, Object> dataMap, int rowNumber) throws Exception {
+        if(dataMap.entrySet().size()==1){
+            return;
+        }
+        init();
+        FileOutputStream fos = new FileOutputStream(filePath);
+        dataMap.forEach((k, v) -> {
+            try {
+                writeToCell(rowNumber, k, v);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        xssfWorkbook.write(fos);
+        fos.close();
+        flush();
+    }
+
+    public void writeToCell(int rowNumber, String columnName, Object valueToInsert) throws Exception {
+        if(columnName.equalsIgnoreCase("iteration")){
+            return;
+        }
+        Map<String, Integer> map=getRowHeaderMap();
+        xssfRow = xssfSheet.getRow(rowNumber);
+        int colNumber = map.get(columnName);
+        xssfRow.getCell(colNumber).setCellValue(valueToInsert.toString());
+    }
+
     public void flush() {
         try {
             xssfWorkbook.close();
         } catch (IOException e) {
             //throw new RuntimeException(e);
         }
+    }
+
+    public Map<String, Integer> getRowHeaderMap() {
+        Map<String, Integer> map = new HashMap<>();
+        for (int j = 0; j < xssfRowHeader.getLastCellNum(); j++) {
+            xssfCell = xssfRowHeader.getCell(j);
+            if (xssfCell == null) {
+                continue;
+            }
+            map.put(xssfRowHeader.getCell(j).getStringCellValue(), j);
+        }
+        return map;
     }
 
     public List<Map<String, String>> getAllSheetData() {
