@@ -15,8 +15,8 @@ public class OrderStepDef extends BaseStepDef {
     public void user_login_to_application() {
         System.out.println("-------user_login_to_application " + data);
         loginPage.load("https://demo.nopcommerce.com/login?returnUrl=%2F");
-        String username = data.get(0).get("email");
-        String password = data.get(0).get("password");
+        String username = data.get("email");
+        String password = data.get("password");
         loginPage.loginToApp(username, password);
         assertLogger.log("i am in user_login_to_application");
     }

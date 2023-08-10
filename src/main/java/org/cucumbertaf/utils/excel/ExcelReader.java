@@ -80,7 +80,7 @@ public class ExcelReader {
         Map<String, Integer> map=getRowHeaderMap();
         xssfRow = xssfSheet.getRow(rowNumber);
         int colNumber = map.get(columnName);
-        xssfRow.getCell(colNumber).setCellValue(valueToInsert.toString());
+        xssfRow.getCell(colNumber).setCellValue(String.valueOf(valueToInsert));
     }
 
     public void flush() {

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class GenericStepDef {
 
     protected final WebDriver driver;
-    protected final List<Map<String, String>> data;
+    protected final Map<String, String> data;
     protected final Scenario log;
 
     public GenericStepDef(TestContext context) {

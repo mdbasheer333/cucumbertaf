@@ -12,7 +12,7 @@ import java.util.Map;
 public class BaseStepDef {
 
     protected final WebDriver driver;
-    protected final List<Map<String, String>> data;
+    protected final Map<String, String> data;
     protected final CTAFAssert assertLogger;
     protected final TestContext context;
 

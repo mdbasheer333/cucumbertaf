@@ -19,7 +19,7 @@ public class RegisterStepDef extends BaseStepDef {
 
     @When("fill all the details in registration page")
     public void fill_all_the_details_in_registration_page() {
-        registerPage.fillRegistrationDetails(data.get(0));
+        registerPage.fillRegistrationDetails(data);
         assertLogger.log("ia m in fill_all_the_details_in_registration_page ");
     }
 

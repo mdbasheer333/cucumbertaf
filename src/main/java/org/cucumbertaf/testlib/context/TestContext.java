@@ -12,7 +12,7 @@ public class TestContext {
     private WebDriver driver;
     private String featureName;
     private String scenarioName;
-    private List<Map<String, String>> data;
+    private Map<String, String> data;
     private Map<String, Object> exl_write_data_map;
     private Scenario logger;
     private String some_info;
@@ -38,7 +38,7 @@ public class TestContext {
         this.scenarioName = scenarioName;
     }
 
-    public void setData(List<Map<String, String>> data) {
+    public void setData(Map<String, String> data) {
         this.data = data;
     }
 
@@ -62,7 +62,7 @@ public class TestContext {
         return scenarioName;
     }
 
-    public List<Map<String, String>> getData() {
+    public Map<String, String> getData() {
         return data;
     }
 

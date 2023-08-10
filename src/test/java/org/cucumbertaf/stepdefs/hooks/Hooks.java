@@ -60,7 +60,7 @@ public class Hooks {
         int iteration_select = Globals.counterTracker.get().get("current_iteration");
 
         ExcelReader reader = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
-        this.testContext.setData(reader.getAllData());
+        this.testContext.setData(reader.getAllData().get(0));
 
         Map<String, Object> wd = new HashMap<>();
         wd.put("iteration", iteration_select);
