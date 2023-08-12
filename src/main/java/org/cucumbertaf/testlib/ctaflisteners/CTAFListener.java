@@ -10,7 +10,8 @@ import java.util.Map;
 public class CTAFListener implements ITestListener {
 
     public void onStart(ITestContext context) {
-        String featureName = context.getCurrentXmlTest().getParameter("featurename");
+        String[] fNames = context.getCurrentXmlTest().getParameter("cucumber.features").split("/");
+        String featureName = fNames [fNames.length-1];
         Map<String, Integer> mp = new HashMap<>();
         mp.put(featureName, 1);
         mp.put("current_iteration", 1);

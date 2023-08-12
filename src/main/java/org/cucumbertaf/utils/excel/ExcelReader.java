@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.cucumbertaf.utils.Globals;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -29,16 +30,15 @@ public class ExcelReader {
     String scenarioName;
     String sheetName;
 
-
     public ExcelReader(String spath, String sheetName) {
-        filePath = spath;
+        this.filePath = spath;
         this.featureName = sheetName;
     }
 
     public ExcelReader(String spath, String scenarioName, int iteration) {
         featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
         this.scenarioName = scenarioName;
-        filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\testdata\\testdata.xlsx";
+        filePath = Globals.data_exl_path;
         this.iteration = iteration;
     }
 
@@ -56,7 +56,7 @@ public class ExcelReader {
     }
 
     public void writeToSheet(Map<String, Object> dataMap, int rowNumber) throws Exception {
-        if(dataMap.entrySet().size()==1){
+        if (dataMap.entrySet().size() == 1) {
             return;
         }
         init();
@@ -74,10 +74,10 @@ public class ExcelReader {
     }
 
     public void writeToCell(int rowNumber, String columnName, Object valueToInsert) throws Exception {
-        if(columnName.equalsIgnoreCase("iteration")){
+        if (columnName.equalsIgnoreCase("iteration")) {
             return;
         }
-        Map<String, Integer> map=getRowHeaderMap();
+        Map<String, Integer> map = getRowHeaderMap();
         xssfRow = xssfSheet.getRow(rowNumber);
         int colNumber = map.get(columnName);
         xssfRow.getCell(colNumber).setCellValue(String.valueOf(valueToInsert));
@@ -143,8 +143,11 @@ public class ExcelReader {
         }
 
         int featureColPos = getColPosition("feature");
-        int scenario = getColPosition("scenario");
+        //int scenario = getColPosition("scenario");
         int iteration = getColPosition("iteration");
+
+        int exeFlagColPos = getColPosition("ExecutionFlag");
+
         for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
             xssfRow = xssfSheet.getRow(i);
             if (xssfRow == null) {
@@ -152,7 +155,7 @@ public class ExcelReader {
             }
             if (xssfRow.getCell(featureColPos).getStringCellValue().equals(featureName)) {
                 //  if (xssfRow.getCell(scenario).getStringCellValue().equals(scenarioName)) {
-                if (xssfRow.getCell(iteration).getNumericCellValue() == this.iteration) {
+                if ( ((int) xssfRow.getCell(iteration).getNumericCellValue()) == this.iteration && xssfRow.getCell(exeFlagColPos).getStringCellValue().equalsIgnoreCase("yes")) {
                     Map<String, String> map = new HashMap<>();
                     for (int j = 0; j < xssfRow.getLastCellNum(); j++) {
                         xssfCell = xssfRow.getCell(j);
@@ -168,7 +171,10 @@ public class ExcelReader {
                         }
                     }
                     data.add(map);
+                    break;
                     // map.clear();
+                }else {
+                    this.iteration++;
                 }
                 //}
             }
@@ -188,6 +194,30 @@ public class ExcelReader {
             }
         }
         return pos;
+    }
+
+    public Integer getNumberOfIterations() {
+        init();
+        int count = 0;
+        int colPos = getColPosition("ExecutionFlag");
+        if (xssfWorkbook == null || xssfSheet == null) {
+            return null;
+        }
+        for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
+            xssfRow = xssfSheet.getRow(i);
+            if (xssfRow == null) {
+                continue;
+            }
+            xssfCell = xssfRow.getCell(colPos);
+            if (xssfCell == null) {
+                continue;
+            }
+            if (xssfCell.getStringCellValue().equalsIgnoreCase("yes")) {
+                count++;
+            }
+        }
+        flush();
+        return count;
     }
 
 }

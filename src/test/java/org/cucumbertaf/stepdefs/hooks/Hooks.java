@@ -60,7 +60,8 @@ public class Hooks {
         int iteration_select = Globals.counterTracker.get().get("current_iteration");
 
         ExcelReader reader = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
-        this.testContext.setData(reader.getAllData().get(0));
+        Map<String, String> dataExl = reader.getAllData().get(0);
+        this.testContext.setData(dataExl);
 
         Map<String, Object> wd = new HashMap<>();
         wd.put("iteration", iteration_select);
@@ -69,7 +70,7 @@ public class Hooks {
         String info = "" + this.testContext.getData();
 
         if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
-            eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + iteration_select, info));
+            eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + dataExl.get("workflowdescription"), info));
             iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());
             //this.testContext.getExtentTest().assignCategory(featureNameTemp+"_"+iteration_select);
