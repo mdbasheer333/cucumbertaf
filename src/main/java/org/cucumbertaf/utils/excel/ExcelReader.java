@@ -141,42 +141,28 @@ public class ExcelReader {
         if (xssfWorkbook == null || xssfSheet == null) {
             return null;
         }
-
-        int featureColPos = getColPosition("feature");
-        //int scenario = getColPosition("scenario");
-        int iteration = getColPosition("iteration");
-
         int exeFlagColPos = getColPosition("ExecutionFlag");
-
         for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
             xssfRow = xssfSheet.getRow(i);
             if (xssfRow == null) {
                 continue;
             }
-            if (xssfRow.getCell(featureColPos).getStringCellValue().equals(featureName)) {
-                //  if (xssfRow.getCell(scenario).getStringCellValue().equals(scenarioName)) {
-                if ( ((int) xssfRow.getCell(iteration).getNumericCellValue()) == this.iteration && xssfRow.getCell(exeFlagColPos).getStringCellValue().equalsIgnoreCase("yes")) {
-                    Map<String, String> map = new HashMap<>();
-                    for (int j = 0; j < xssfRow.getLastCellNum(); j++) {
-                        xssfCell = xssfRow.getCell(j);
-                        if (xssfCell == null) {
-                            continue;
-                        }
-                        if (xssfCell.getCellType() == CellType.STRING) {
-                            map.put(xssfRowHeader.getCell(j).getStringCellValue(), xssfCell.getStringCellValue());
-                        } else if (xssfCell.getCellType() == CellType.NUMERIC) {
-                            map.put(xssfRowHeader.getCell(j).getStringCellValue(), String.valueOf(xssfCell.getNumericCellValue()));
-                        } else {
-                            map.put(xssfRowHeader.getCell(j).getStringCellValue(), "");
-                        }
+            if (xssfRow.getCell(exeFlagColPos).getStringCellValue().equalsIgnoreCase("yes")) {
+                Map<String, String> map = new HashMap<>();
+                for (int j = 0; j < xssfRow.getLastCellNum(); j++) {
+                    xssfCell = xssfRow.getCell(j);
+                    if (xssfCell == null) {
+                        continue;
                     }
-                    data.add(map);
-                    break;
-                    // map.clear();
-                }else {
-                    this.iteration++;
+                    if (xssfCell.getCellType() == CellType.STRING) {
+                        map.put(xssfRowHeader.getCell(j).getStringCellValue(), xssfCell.getStringCellValue());
+                    } else if (xssfCell.getCellType() == CellType.NUMERIC) {
+                        map.put(xssfRowHeader.getCell(j).getStringCellValue(), String.valueOf(xssfCell.getNumericCellValue()));
+                    } else {
+                        map.put(xssfRowHeader.getCell(j).getStringCellValue(), "");
+                    }
                 }
-                //}
+                data.add(map);
             }
         }
         flush();

@@ -6,21 +6,21 @@
         <listener class-name="org.cucumbertaf.testlib.ctaflisteners.CTAFListener"/>
     </listeners>
 
-<!--    <test name="register" preserve-order="true">-->
-<!--        <parameter name="cucumber.features" value="src/test/resources/features/registration/register.feature"/>-->
-<!--        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>-->
-<!--        <classes>-->
-<!--            <class name="org.cucumbertaf.runner.RunCucumberTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="register" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/registration/register.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+        <classes>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="order" preserve-order="true">-->
-<!--        <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>-->
-<!--        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>-->
-<!--        <classes>-->
-<!--            <class name="org.cucumbertaf.runner.RunCucumberTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="order" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+        <classes>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
+        </classes>
+    </test>
 
     <test name="neworder" preserve-order="true">
         <parameter name="cucumber.features" value="src/test/resources/features/orders/neworder.feature"/>
@@ -30,12 +30,12 @@
         </classes>
     </test>
 
-<!--    <test name="oldorder" preserve-order="true">-->
-<!--        <parameter name="cucumber.features" value="src/test/resources/features/orders/oldorder.feature"/>-->
-<!--            <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>-->
-<!--            <classes>-->
-<!--            <class name="org.cucumbertaf.runner.RunCucumberTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="oldorder" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/orders/oldorder.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+        <classes>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
+        </classes>
+    </test>
 
 </suite>
