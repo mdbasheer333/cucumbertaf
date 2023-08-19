@@ -12,6 +12,7 @@ import org.testng.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber-reports/cucumber.html",
@@ -41,8 +42,17 @@ public class RunCucumberTest {
         List<Object[]> lst = new ArrayList<>();
         String[] fNames = context.getCurrentXmlTest().getParameter("cucumber.features").split("/");
         String fName = fNames[fNames.length - 1];
-        ExcelReader excelReader = new ExcelReader(Globals.data_exl_path, fName.replaceAll(".feature", ""));
-        Integer iterCount = excelReader.getNumberOfIterations();
+
+        Integer iterCount;
+        ExcelReader excelReader = new ExcelReader(Globals.data_exl_path, "features");
+        List<Map<String, String>> allData = excelReader.getAllData();
+        if (allData.stream().noneMatch((mp)->mp.containsValue(fName.replaceAll(".feature", "")))) {
+            iterCount = 0;
+        } else {
+            excelReader = new ExcelReader(Globals.data_exl_path, fName.replaceAll(".feature", ""));
+            iterCount = excelReader.getNumberOfIterations();
+        }
+
         int iterations = iterCount == null ? 0 : iterCount;
         Object[][] obj = testNGCucumberRunner.provideScenarios();
         for (int j = 0; j < iterations; j++) {
@@ -59,7 +69,7 @@ public class RunCucumberTest {
         for (int i = 0; i < lst.size(); i++) {
             custom_obj[i] = lst.get(i);
         }
-        if(iterations!=0) {
+        if (iterations != 0) {
             Globals.counterTracker.get().put("total_scenarios_count", Integer.parseInt(String.valueOf(lst.size() / iterations)));
         }
         return custom_obj;
