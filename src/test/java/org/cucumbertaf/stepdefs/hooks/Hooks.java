@@ -65,7 +65,7 @@ public class Hooks {
         this.testContext.setData(dataExl);
 
         Map<String, Object> wd = new HashMap<>();
-        wd.put("iteration", iteration_select);
+        wd.put("iteration_write", dataExl.get("iteration"));
         this.testContext.setExl_write_data_map(wd);
 
         String info = "" + this.testContext.getData();
@@ -168,19 +168,10 @@ public class Hooks {
             this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is not defined.....!");
         }
 
-        int iteration_select = (int) this.testContext.getExl_write_data_map().get("iteration");
+        int iteration_select = Float.valueOf(this.testContext.getExl_write_data_map().get("iteration_write").toString()).intValue();
         ExcelReader writter = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
         writter.writeToSheet(this.testContext.getExl_write_data_map(), iteration_select);
-//        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        String time_stamp = sdf.format(timestamp);
-//
-//        if (scenario.isFailed() || !scenario.isFailed()) {
-//            File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-//            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
-//            FileHandler.copy(screenshot, new File(dest_path));
-//            this.testContext.getExtentTest().log(Status.INFO, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
-//        }
+
     }
 
     @AfterAll
