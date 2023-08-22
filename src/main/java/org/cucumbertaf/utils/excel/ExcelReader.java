@@ -58,6 +58,7 @@ public class ExcelReader {
         if (dataMap.entrySet().size() == 1) {
             return;
         }
+        dataMap.remove("iteration_write");
         init();
         FileOutputStream fos = new FileOutputStream(filePath);
         dataMap.forEach((k, v) -> {
