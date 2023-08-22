@@ -36,9 +36,9 @@ public class ExcelReader {
     }
 
     public ExcelReader(String spath, String scenarioName, int iteration) {
-        featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
+        this.featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
         this.scenarioName = scenarioName;
-        filePath = Globals.data_exl_path;
+        this.filePath = Globals.data_exl_path;
         this.iteration = iteration;
     }
 

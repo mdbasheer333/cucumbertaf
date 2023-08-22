@@ -57,6 +57,7 @@ public class OrderStepDef extends BaseStepDef {
     @Then("oder should be placed successfully")
     public void oder_should_be_placed_successfully() {
         System.out.println("-------oder_should_be_placed_successfully");
+        context.getExl_write_data_map().put("testing","hwllo this is testing");
         assertLogger.assert_equals("basheer", "basheer1", "names not matching", "names matching");
     }
 

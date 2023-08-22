@@ -1,11 +1,12 @@
 package org.cucumbertaf.pageobjects.orderpage;
 
 import org.cucumbertaf.pageobjects.BasePage;
+import org.cucumbertaf.pageobjects.loginpage.LoginLocators;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrderPage extends BasePage {
+public class OrderPage extends BasePage implements OrderLocators, LoginLocators {
 
     public OrderPage(WebDriver driver) {
         super(driver);
