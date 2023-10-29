@@ -28,14 +28,14 @@ public class ExtentReportingService {
         return report_path;
     }
 
-    public static synchronized ExtentReports getInstance() {
-        if (extent == null)
-            createInstance();
+    public static synchronized ExtentReports getInstance(String featureNameTemp, int current_iteration) {
+        //if (extent == null)
+        createInstance(featureNameTemp,current_iteration);
         return extent;
     }
 
-    public static void createInstance() {
-        String fileNameWithPath = getReportFileLocation();
+    public static void createInstance(String featureNameTemp, int current_iteration) {
+        String fileNameWithPath = getReportFileLocation(featureNameTemp,current_iteration);
         ExtentSparkReporter htmlReporter = new ExtentSparkReporter(fileNameWithPath);
         htmlReporter.config().setDocumentTitle("cucumbertaf");
         htmlReporter.config().setTimeStampFormat("EEEE, MMMM dd, yyyy, hh:mm a '('zzz')'");
@@ -47,16 +47,18 @@ public class ExtentReportingService {
         return folderNameTimeStamp;
     }
 
-    private static String getReportFileLocation() {
-        String basePath = System.getProperty("user.dir");
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        folderNameTimeStamp = "HtmlReport_" + sdf.format(timestamp);
-        report_path = basePath + File.separator + "test-output" + File.separator + folderNameTimeStamp;
-        screenshot_path = report_path + File.separator + "screenshots" + File.separator;
-        createReportPath(report_path);
-        createReportPath(screenshot_path);
-        return report_path + File.separator + reportFileName + ".html";
+    private static String getReportFileLocation(String featureNameTemp, int current_iteration) {
+        if(folderNameTimeStamp.trim().equals("")){
+            String basePath = System.getProperty("user.dir");
+            final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            folderNameTimeStamp = "HtmlReport_" + sdf.format(timestamp);
+            report_path = basePath + File.separator + "test-output" + File.separator + folderNameTimeStamp;
+            screenshot_path = report_path + File.separator + "screenshots" + File.separator;
+            createReportPath(report_path);
+            createReportPath(screenshot_path);
+        }
+        return report_path + File.separator + reportFileName +"_"+featureNameTemp+"_"+current_iteration+ ".html";
     }
 
     private static void createReportPath(String path) {

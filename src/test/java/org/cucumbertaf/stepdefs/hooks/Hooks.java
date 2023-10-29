@@ -42,7 +42,7 @@ public class Hooks {
 
     @BeforeAll
     public static void beforeAll() {
-        extent = ExtentReportingService.getInstance();
+        //extent = ExtentReportingService.getInstance();
     }
 
     @Before
@@ -61,7 +61,7 @@ public class Hooks {
 
         ExcelReader reader = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
         List<Map<String, String>> allData = reader.getAllData();
-        Map<String, String> dataExl = allData.get(iteration_select-1);
+        Map<String, String> dataExl = allData.get(iteration_select - 1);
         this.testContext.setData(dataExl);
 
         Map<String, Object> wd = new HashMap<>();
@@ -70,7 +70,10 @@ public class Hooks {
 
         String info = "" + this.testContext.getData();
 
-        if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
+        int itn = (int) Float.parseFloat(String.valueOf(dataExl.get("iteration")));
+
+        if (extent == null) {
+            extent = ExtentReportingService.getInstance(featureNameTemp, itn);
             eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + dataExl.get("workflowdescription"), info));
             iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());
@@ -112,13 +115,13 @@ public class Hooks {
 
         if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/" + ExtentReportingService.getFolderNameTimeStamp() + "/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/" + ExtentReportingService.getFolderNameTimeStamp() + "/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
@@ -145,13 +148,13 @@ public class Hooks {
 
         if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/" + ExtentReportingService.getFolderNameTimeStamp() + "/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/" + ExtentReportingService.getFolderNameTimeStamp() + "/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
             String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
@@ -172,6 +175,18 @@ public class Hooks {
             this.testContext.getExtentTest().log(Status.WARNING, curr_step_name + " step is not defined.....!");
         }
 
+        String featureNameTemp = this.testContext.getFeatureName().split("/")[this.testContext.getFeatureName().split("/").length - 1].replaceAll(".feature", "");
+        int current_iteration = Globals.counterTracker.get().getOrDefault(featureNameTemp, 1);
+        int total_scenarios_count = Globals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
+        //if (current_iteration-1==total_scenarios_count) {
+        if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
+            extent.flush();
+            extent = null;
+            eTestThreadLocal.set(null);
+            eTestThreadLocal.remove();
+            this.testContext.setExtentTest(eTestThreadLocal.get());
+        }
+
         int iteration_select = Float.valueOf(this.testContext.getExl_write_data_map().get("iteration_write").toString()).intValue();
         ExcelReader writter = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
         writter.writeToSheet(this.testContext.getExl_write_data_map(), iteration_select);
@@ -180,7 +195,7 @@ public class Hooks {
 
     @AfterAll
     public static void afterAll() {
-        extent.flush();
+        //extent.flush();
     }
 
 }
