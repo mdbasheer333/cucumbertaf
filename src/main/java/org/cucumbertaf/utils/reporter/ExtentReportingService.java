@@ -14,6 +14,7 @@ public class ExtentReportingService {
 
     private static String report_path = "";
     private static String screenshot_path = "";
+    private static String folderNameTimeStamp = "";
 
     public static String getReportFileName() {
         return reportFileName;
@@ -42,11 +43,16 @@ public class ExtentReportingService {
         extent.attachReporter(htmlReporter);
     }
 
+    public static String getFolderNameTimeStamp(){
+        return folderNameTimeStamp;
+    }
+
     private static String getReportFileLocation() {
         String basePath = System.getProperty("user.dir");
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        report_path = basePath + File.separator + "test-output" + File.separator + "HtmlReport_" + sdf.format(timestamp);
+        folderNameTimeStamp = "HtmlReport_" + sdf.format(timestamp);
+        report_path = basePath + File.separator + "test-output" + File.separator + folderNameTimeStamp;
         screenshot_path = report_path + File.separator + "screenshots" + File.separator;
         createReportPath(report_path);
         createReportPath(screenshot_path);

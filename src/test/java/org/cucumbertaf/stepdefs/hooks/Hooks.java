@@ -112,14 +112,16 @@ public class Hooks {
 
         if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
-            this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+            String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
-            this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+            String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
             this.testContext.getExtentTest().fail(Globals.error);
         } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
             this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
@@ -143,14 +145,16 @@ public class Hooks {
 
         if (scenario.getStatus() == io.cucumber.java.Status.PASSED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
-            this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+            String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            this.testContext.getExtentTest().log(Status.PASS, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
         } else if (scenario.getStatus() == io.cucumber.java.Status.FAILED) {
             File screenshot = ((TakesScreenshot) this.testContext.getDriver()).getScreenshotAs(OutputType.FILE);
-            String dest_path = ExtentReportingService.getScreenshot_path() + curr_step_name + "_" + time_stamp + ".png";
+            String dest_path = "./test-output/"+ExtentReportingService.getFolderNameTimeStamp()+"/screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             FileHandler.copy(screenshot, new File(dest_path));
-            this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(dest_path).build());
+            String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
+            this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
             this.testContext.getExtentTest().fail(Globals.error);
             for (int i = stepCount; i < testSteps.size(); i++) {
                 curr_step_name = testSteps.get(i).getStep().getText();
