@@ -6,7 +6,8 @@
 
     <groupId>org.cucumbertaf</groupId>
     <artifactId>cucumbertaf</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+    <packaging>jar</packaging>
 
     <properties>
         <cucumber.version>7.4.1</cucumber.version>
@@ -88,59 +89,6 @@
         </dependency>
 
     </dependencies>
-
-    <profiles>
-
-        <profile>
-            <id>dev</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/dev</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>*.properties</include>
-                        </includes>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-
-        <profile>
-            <id>stage</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/stage</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>*.properties</include>
-                        </includes>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-
-        <profile>
-            <id>qa</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/qa</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>*.properties</include>
-                        </includes>
-                    </resource>
-                </resources>
-            </build>
-
-        </profile>
-
-    </profiles>
 
     <build>
 

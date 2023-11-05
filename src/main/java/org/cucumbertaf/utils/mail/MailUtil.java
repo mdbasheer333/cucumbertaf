@@ -24,15 +24,10 @@ import org.cucumbertaf.utils.reporter.ExtentReportingService;
 
 public class MailUtil {
 
-    public static void main(String[] args) {
+    public static void sendMail(Map<String, String> map) {
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.googlemail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.starttls.enable", "true");
+        map.forEach(props::put);
 
         ExcelReader excelReader = new ExcelReader(Globals.mail_exl_path, "mail");
         List<Map<String, String>> allSheetData = excelReader.getAllSheetData();

@@ -1,4 +1,4 @@
-package org.cucumbertaf.stepdefs.hooks;
+package org.cucumbertaf.testlib;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Hooks {
+public class CTAFHooks {
 
     private final TestContext testContext;
     private static ExtentReports extent = null;
@@ -36,7 +36,7 @@ public class Hooks {
     private String curr_step_name = "";
     private List<PickleStepTestStep> testSteps = null;
 
-    public Hooks(TestContext testContext) {
+    public CTAFHooks(TestContext testContext) {
         this.testContext = testContext;
     }
 
