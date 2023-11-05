@@ -1,7 +1,7 @@
 package org.basecucumbertaf.utils.mail;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.basecucumbertaf.utils.Globals;
+import org.basecucumbertaf.utils.IGlobals;
 import org.basecucumbertaf.utils.reporter.ExtentReportingService;
 import org.basecucumbertaf.utils.excel.ExcelReader;
 
@@ -27,7 +27,7 @@ public class MailUtil {
         Properties props = new Properties();
         map.forEach(props::put);
 
-        ExcelReader excelReader = new ExcelReader(Globals.mail_exl_path, "mail");
+        ExcelReader excelReader = new ExcelReader(IGlobals.mail_exl_path, "mail");
         List<Map<String, String>> allSheetData = excelReader.getAllSheetData();
 
         String sender_mail = allSheetData.get(0).get("sendermail");

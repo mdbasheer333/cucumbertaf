@@ -1,6 +1,6 @@
 package org.basecucumbertaf.testlib.ctaflisteners;
 
-import org.basecucumbertaf.utils.Globals;
+import org.basecucumbertaf.utils.IGlobals;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -41,7 +41,7 @@ public class CTAFListener implements ITestListener {
         Map<String, Integer> mp = new HashMap<>();
         mp.put(featureName, 1);
         mp.put("current_iteration", 1);
-        Globals.counterTracker.set(mp);
+        IGlobals.counterTracker.set(mp);
     }
 
     @Override

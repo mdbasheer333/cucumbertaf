@@ -2,9 +2,9 @@ package org.basecucumbertaf.testlib.ctaflisteners;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
-import org.basecucumbertaf.utils.Globals;
+import org.basecucumbertaf.utils.IGlobals;
 
-public class CTAFBDDTestListener implements ConcurrentEventListener {
+public class ICTAFBDDTestListener implements ConcurrentEventListener {
     @Override
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestCaseFinished.class, this::handleTestCaseFinished);
@@ -17,11 +17,11 @@ public class CTAFBDDTestListener implements ConcurrentEventListener {
 
     private void handleTestStepFinished(TestStepFinished event) {
         Result result = event.getResult();
-        Globals.error = result.getError();
+        IGlobals.error = result.getError();
     }
 
     private void handleTestCaseFinished(TestCaseFinished event) {
         Result result = event.getResult();
-        Globals.error = result.getError();
+        IGlobals.error = result.getError();
     }
 }

@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 
-public class BasePage {
+public class IBasePage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    public BasePage(WebDriver driver) {
+    public IBasePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         wait = new WebDriverWait(this.driver, 60);

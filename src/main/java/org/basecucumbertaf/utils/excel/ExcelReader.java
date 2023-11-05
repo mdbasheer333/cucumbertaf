@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.basecucumbertaf.utils.Globals;
+import org.basecucumbertaf.utils.IGlobals;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,7 +37,7 @@ public class ExcelReader {
     public ExcelReader(String spath, String scenarioName, int iteration) {
         this.featureName = spath.split("/")[spath.split("/").length - 1].replaceAll(".feature", "");
         this.scenarioName = scenarioName;
-        this.filePath = Globals.data_exl_path;
+        this.filePath = IGlobals.data_exl_path;
         this.iteration = iteration;
     }
 

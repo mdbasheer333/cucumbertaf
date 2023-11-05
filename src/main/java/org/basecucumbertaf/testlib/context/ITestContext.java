@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import java.util.List;
 import java.util.Map;
 
-public class TestContext {
+public class ITestContext {
 
     private WebDriver driver;
     private String featureName;

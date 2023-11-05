@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class CTAFAssert {
+public class ICTAFAssert {
 
     private final ExtentTest logger;
 
-    public CTAFAssert(ExtentTest logger) {
+    public ICTAFAssert(ExtentTest logger) {
         this.logger = logger;
     }
 
