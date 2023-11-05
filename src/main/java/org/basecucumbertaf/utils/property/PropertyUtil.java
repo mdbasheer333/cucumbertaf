@@ -1,4 +1,4 @@
-package org.cucumbertaf.utils.property;
+package org.basecucumbertaf.utils.property;
 
 import java.io.IOException;
 import java.io.InputStream;

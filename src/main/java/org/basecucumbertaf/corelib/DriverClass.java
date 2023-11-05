@@ -1,6 +1,6 @@
-package org.cucumbertaf.corelib;
+package org.basecucumbertaf.corelib;
 
-import org.cucumbertaf.utils.property.PropertyUtil;
+import org.basecucumbertaf.utils.property.PropertyUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;

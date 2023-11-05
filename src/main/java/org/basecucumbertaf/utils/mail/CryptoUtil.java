@@ -1,4 +1,4 @@
-package org.cucumbertaf.utils.mail;
+package org.basecucumbertaf.utils.mail;
 
 import java.util.Base64;
 

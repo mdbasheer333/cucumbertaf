@@ -1,8 +1,9 @@
-package org.cucumbertaf.utils.mail;
+package org.basecucumbertaf.utils.mail;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.cucumbertaf.utils.Globals;
-import org.cucumbertaf.utils.excel.ExcelReader;
+import org.basecucumbertaf.utils.Globals;
+import org.basecucumbertaf.utils.reporter.ExtentReportingService;
+import org.basecucumbertaf.utils.excel.ExcelReader;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -17,10 +18,7 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.cucumbertaf.utils.reporter.ExtentReportingService;
 
 public class MailUtil {
 

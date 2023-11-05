@@ -1,4 +1,4 @@
-package org.cucumbertaf.pageobjects;
+package org.basecucumbertaf.pageobjects;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
