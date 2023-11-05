@@ -6,7 +6,7 @@
 
     <groupId>org.basecucumbertaf</groupId>
     <artifactId>cucumbertaf</artifactId>
-    <version>1.0</version>
+    <version>3.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -117,6 +117,8 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+
+
             </plugin>
 
             <plugin>
