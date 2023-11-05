@@ -19,6 +19,14 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.cucumbertaf</groupId>
+            <artifactId>cucumbertaf</artifactId>
+            <version>3.0</version>
+            <scope>system</scope>
+            <systemPath>C:\Users\RASHEED\Desktop\cucumbertaf-3.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
             <version>${cucumber.version}</version>

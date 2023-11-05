@@ -6,12 +6,12 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import io.cucumber.java.*;
 import io.cucumber.plugin.event.PickleStepTestStep;
-import org.cucumbertaf.corelib.DriverClass;
-import org.cucumbertaf.testlib.context.TestContext;
-import org.cucumbertaf.utils.Globals;
-import org.cucumbertaf.utils.excel.ExcelReader;
-import org.cucumbertaf.utils.property.PropertyUtil;
-import org.cucumbertaf.utils.reporter.ExtentReportingService;
+import org.basecucumbertaf.corelib.IDriverClass;
+import org.basecucumbertaf.testlib.context.ITestContext;
+import org.basecucumbertaf.utils.IGlobals;
+import org.basecucumbertaf.utils.excel.ExcelReader;
+import org.basecucumbertaf.utils.property.PropertyUtil;
+import org.basecucumbertaf.utils.reporter.ExtentReportingService;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class Hooks {
 
-    private final TestContext testContext;
+    private final ITestContext testContext;
     private static ExtentReports extent = null;
     private static final ThreadLocal<ExtentTest> eTestThreadLocal = new ThreadLocal<>();
     private int stepCount = 0;
@@ -36,7 +36,7 @@ public class Hooks {
     private String curr_step_name = "";
     private List<PickleStepTestStep> testSteps = null;
 
-    public Hooks(TestContext testContext) {
+    public Hooks(ITestContext testContext) {
         this.testContext = testContext;
     }
 
@@ -49,15 +49,15 @@ public class Hooks {
     public void before(Scenario scenario) throws Exception {
         String browserProp = System.getProperty("browser");
         String browser = browserProp == null ? PropertyUtil.getProperty("browser") : browserProp;
-        this.testContext.setDriver(DriverClass.getDriverInstance(browser));
+        this.testContext.setDriver(IDriverClass.getDriverInstance(browser));
         this.testContext.setFeatureName(String.valueOf(scenario.getUri()));
         this.testContext.setScenarioName(scenario.getName());
         this.testContext.setLogger(scenario);
 
         String featureNameTemp = this.testContext.getFeatureName().split("/")[this.testContext.getFeatureName().split("/").length - 1].replaceAll(".feature", "");
-        int current_iteration = Globals.counterTracker.get().getOrDefault(featureNameTemp, 1);
-        int total_scenarios_count = Globals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
-        int iteration_select = Globals.counterTracker.get().get("current_iteration");
+        int current_iteration = IGlobals.counterTracker.get().getOrDefault(featureNameTemp, 1);
+        int total_scenarios_count = IGlobals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
+        int iteration_select = IGlobals.counterTracker.get().get("current_iteration");
 
         ExcelReader reader = new ExcelReader(this.testContext.getFeatureName(), this.testContext.getScenarioName(), iteration_select);
         List<Map<String, String>> allData = reader.getAllData();
@@ -87,9 +87,9 @@ public class Hooks {
         }
 
         if (current_iteration % total_scenarios_count == 0) {
-            Globals.counterTracker.get().put("current_iteration", Globals.counterTracker.get().get("current_iteration") + 1);
+            IGlobals.counterTracker.get().put("current_iteration", IGlobals.counterTracker.get().get("current_iteration") + 1);
         }
-        Globals.counterTracker.get().put(featureNameTemp, current_iteration + 1);
+        IGlobals.counterTracker.get().put(featureNameTemp, current_iteration + 1);
     }
 
     @BeforeStep
@@ -125,7 +125,7 @@ public class Hooks {
             FileHandler.copy(screenshot, new File(dest_path));
             String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
-            this.testContext.getExtentTest().fail(Globals.error);
+            this.testContext.getExtentTest().fail(IGlobals.error);
         } else if (scenario.getStatus() == io.cucumber.java.Status.SKIPPED) {
             this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
         } else if (scenario.getStatus() == io.cucumber.java.Status.UNDEFINED) {
@@ -158,7 +158,7 @@ public class Hooks {
             FileHandler.copy(screenshot, new File(dest_path));
             String pathOfHtmlScreenshot = "screenshots/" + curr_step_name + "_" + time_stamp + ".png";
             this.testContext.getExtentTest().log(Status.FAIL, MediaEntityBuilder.createScreenCaptureFromPath(pathOfHtmlScreenshot).build());
-            this.testContext.getExtentTest().fail(Globals.error);
+            this.testContext.getExtentTest().fail(IGlobals.error);
             for (int i = stepCount; i < testSteps.size(); i++) {
                 curr_step_name = testSteps.get(i).getStep().getText();
                 this.testContext.getExtentTest().log(Status.SKIP, curr_step_name + " step is skipped.....!");
@@ -176,8 +176,8 @@ public class Hooks {
         }
 
         String featureNameTemp = this.testContext.getFeatureName().split("/")[this.testContext.getFeatureName().split("/").length - 1].replaceAll(".feature", "");
-        int current_iteration = Globals.counterTracker.get().getOrDefault(featureNameTemp, 1);
-        int total_scenarios_count = Globals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
+        int current_iteration = IGlobals.counterTracker.get().getOrDefault(featureNameTemp, 1);
+        int total_scenarios_count = IGlobals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
         //if (current_iteration-1==total_scenarios_count) {
         if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
             extent.flush();

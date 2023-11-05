@@ -4,13 +4,13 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import org.cucumbertaf.testlib.context.TestContext;
+
+import org.basecucumbertaf.testlib.context.ITestContext;
+import org.basecucumbertaf.utils.property.PropertyUtil;
+import org.basecucumbertaf.utils.webutils.WebTable;
 import org.cucumbertaf.pageobjects.orderpage.OrderPage;
-import org.cucumbertaf.utils.property.PropertyUtil;
-import org.cucumbertaf.utils.webutils.WebTable;
 import org.openqa.selenium.WebDriver;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +20,7 @@ public class GenericStepDef {
     protected final Map<String, String> data;
     protected final Scenario log;
 
-    public GenericStepDef(TestContext context) {
+    public GenericStepDef(ITestContext context) {
         this.driver = context.getDriver();
         this.data = context.getData();
         this.log = context.getLogger();

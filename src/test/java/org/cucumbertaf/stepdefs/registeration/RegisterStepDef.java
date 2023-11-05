@@ -2,12 +2,14 @@ package org.cucumbertaf.stepdefs.registeration;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+import org.basecucumbertaf.testlib.context.ITestContext;
 import org.cucumbertaf.testbase.BaseStepDef;
-import org.cucumbertaf.testlib.context.TestContext;
+
 
 public class RegisterStepDef extends BaseStepDef {
 
-    public RegisterStepDef(TestContext context) {
+    public RegisterStepDef(ITestContext context) {
         super(context);
     }
 

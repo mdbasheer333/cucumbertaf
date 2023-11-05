@@ -3,7 +3,7 @@
 <suite name="Test Suite" verbose="1" parallel="none" thread-count="3">
 
     <listeners>
-        <listener class-name="org.cucumbertaf.testlib.ctaflisteners.CTAFListener"/>
+        <listener class-name="org.basecucumbertaf.testlib.ctaflisteners.CTAFListener"/>
     </listeners>
 
     <test name="register" preserve-order="true">

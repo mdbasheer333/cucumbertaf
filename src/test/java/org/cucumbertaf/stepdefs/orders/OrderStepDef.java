@@ -2,12 +2,14 @@ package org.cucumbertaf.stepdefs.orders;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+import org.basecucumbertaf.testlib.context.ITestContext;
 import org.cucumbertaf.testbase.BaseStepDef;
-import org.cucumbertaf.testlib.context.TestContext;
+
 
 public class OrderStepDef extends BaseStepDef {
 
-    public OrderStepDef(TestContext context) {
+    public OrderStepDef(ITestContext context) {
         super(context);
     }
 
