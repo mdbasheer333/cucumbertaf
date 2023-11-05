@@ -8,7 +8,6 @@ public class BasePage extends IBasePage{
 
     public BasePage(WebDriver driver) {
         super(driver);
-        // TODO Auto-generated constructor stub
     }
 
 }
