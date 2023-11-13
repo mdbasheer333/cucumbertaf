@@ -73,7 +73,7 @@ public class Hooks {
         int itn = (int) Float.parseFloat(String.valueOf(dataExl.get("iteration")));
 
         if (extent == null) {
-            extent = ExtentReportingService.getInstance(featureNameTemp, itn);
+            extent = ExtentReportingService.getInstance(featureNameTemp, dataExl.get("workflowdescription"));
             eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + dataExl.get("workflowdescription"), info));
             iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());

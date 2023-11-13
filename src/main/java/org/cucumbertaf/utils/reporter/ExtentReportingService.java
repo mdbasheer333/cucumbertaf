@@ -28,13 +28,13 @@ public class ExtentReportingService {
         return report_path;
     }
 
-    public static synchronized ExtentReports getInstance(String featureNameTemp, int current_iteration) {
+    public static synchronized ExtentReports getInstance(String featureNameTemp, String current_iteration) {
         //if (extent == null)
         createInstance(featureNameTemp,current_iteration);
         return extent;
     }
 
-    public static void createInstance(String featureNameTemp, int current_iteration) {
+    public static void createInstance(String featureNameTemp, String current_iteration) {
         String fileNameWithPath = getReportFileLocation(featureNameTemp,current_iteration);
         ExtentSparkReporter htmlReporter = new ExtentSparkReporter(fileNameWithPath);
         htmlReporter.config().setDocumentTitle("cucumbertaf");
@@ -47,7 +47,7 @@ public class ExtentReportingService {
         return folderNameTimeStamp;
     }
 
-    private static String getReportFileLocation(String featureNameTemp, int current_iteration) {
+    private static String getReportFileLocation(String featureNameTemp, String current_iteration) {
         if(folderNameTimeStamp.trim().equals("")){
             String basePath = System.getProperty("user.dir");
             final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
