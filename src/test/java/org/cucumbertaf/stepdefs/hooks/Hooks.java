@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class Hooks {
 
     private final TestContext testContext;
-    private static ExtentReports extent = null;
+    private static ThreadLocal<ExtentReports> extent = new ThreadLocal<>();
     private static final ThreadLocal<ExtentTest> eTestThreadLocal = new ThreadLocal<>();
     private int stepCount = 0;
     private int iter = 0;
@@ -72,9 +72,9 @@ public class Hooks {
 
         int itn = (int) Float.parseFloat(String.valueOf(dataExl.get("iteration")));
 
-        if (extent == null) {
-            extent = ExtentReportingService.getInstance(featureNameTemp, dataExl.get("workflowdescription"));
-            eTestThreadLocal.set(extent.createTest(featureNameTemp + "_" + dataExl.get("workflowdescription"), info));
+        if (extent.get() == null) {
+            extent.set(ExtentReportingService.getInstance(featureNameTemp, dataExl.get("workflowdescription")));
+            eTestThreadLocal.set(extent.get().createTest(featureNameTemp + "_" + dataExl.get("workflowdescription"), info));
             iter = current_iteration;
             this.testContext.setExtentTest(eTestThreadLocal.get());
             //this.testContext.getExtentTest().assignCategory(featureNameTemp+"_"+iteration_select);
@@ -180,8 +180,9 @@ public class Hooks {
         int total_scenarios_count = Globals.counterTracker.get().getOrDefault("total_scenarios_count", 1);
         //if (current_iteration-1==total_scenarios_count) {
         if (current_iteration == 1 || total_scenarios_count == 1 || ((current_iteration - 1) % total_scenarios_count == 0)) {
-            extent.flush();
-            extent = null;
+            extent.get().flush();
+            extent.set(null);
+            extent.remove();
             eTestThreadLocal.set(null);
             eTestThreadLocal.remove();
             this.testContext.setExtentTest(eTestThreadLocal.get());
