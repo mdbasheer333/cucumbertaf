@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import org.cucumbertaf.context.TestContext;
+import org.cucumbertaf.testlib.context.TestContext;
 import org.cucumbertaf.pageobjects.orderpage.OrderPage;
 import org.cucumbertaf.utils.property.PropertyUtil;
 import org.cucumbertaf.utils.webutils.WebTable;
@@ -16,14 +16,14 @@ import java.util.concurrent.TimeUnit;
 
 public class GenericStepDef {
 
-    private final WebDriver driver;
-    private final List<Map<String, String>> data;
-    private final Scenario log;
+    protected final WebDriver driver;
+    protected final Map<String, String> data;
+    protected final Scenario log;
 
     public GenericStepDef(TestContext context) {
-        this.driver = context.driver;
-        this.data = context.data;
-        this.log = context.logger;
+        this.driver = context.getDriver();
+        this.data = context.getData();
+        this.log = context.getLogger();
     }
 
     @Given("user launches application")
@@ -37,6 +37,7 @@ public class GenericStepDef {
     public void user_webtable_testing() {
         OrderPage orderPage = new OrderPage(driver);
         WebTable table = new WebTable(orderPage.getTable());
+        orderPage.scrollToElement(table.getTableElement(1, 1));
         System.out.println(table.getNumberOfRows());
         System.out.println(table.getNumberOfColumns());
         System.out.println(table.getColumnNames());

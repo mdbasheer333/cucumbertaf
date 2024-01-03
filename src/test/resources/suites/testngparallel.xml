@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Test Suite" verbose="1">
-    <test name="Regression Tests">
+<suite name="Test Suite" verbose="1" parallel="tests" thread-count="3">
+
+    <listeners>
+        <listener class-name="org.cucumbertaf.testlib.ctaflisteners.CTAFListener"/>
+    </listeners>
+
+    <test name="register" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/registration/register.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
         <classes>
-            <class name="org.cucumbertaf.runner.RunParallelCucumberTest">
-            </class>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
         </classes>
     </test>
+
+    <test name="order" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/orders/order.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+        <classes>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
+        </classes>
+    </test>
+
+    <test name="neworder" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/orders/neworder.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+        <classes>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
+        </classes>
+    </test>
+
+    <test name="oldorder" preserve-order="true">
+        <parameter name="cucumber.features" value="src/test/resources/features/orders/oldorder.feature"/>
+        <parameter name="cucumber.glue" value="org.cucumbertaf.stepdefs"/>
+        <classes>
+            <class name="org.cucumbertaf.runner.RunCucumberTest"/>
+        </classes>
+    </test>
+
 </suite>
